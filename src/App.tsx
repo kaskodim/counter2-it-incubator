@@ -1,13 +1,12 @@
 import React from 'react';
-
-
+import {Counter} from './components/Сounter/Counter';
 
 function App() {
-  return (
-    <div className="App">
-      There will be a counter here
-    </div>
-  );
+    return (
+        <div className="App">
+            <Counter/>
+        </div>
+    );
 }
 
 export default App;
