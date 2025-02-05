@@ -8,12 +8,13 @@ import error = Simulate.error;
 
 export const Counter = () => {
 
+    // это объект
     const [startValue, setStartValue] = React.useState<number>(0);
     const [maxValue, setMaxValue] = React.useState<number>(0);
     const [isPressedSet, setIsPressedSet] = React.useState<boolean>(false);
     const [isError, setIsError] = React.useState<boolean>(false);
 
-    console.log({startValue}, {maxValue}, {isPressedSet}, {isError});
+    // console.log({startValue}, {maxValue}, {isPressedSet}, {isError});
 
 
     const onChangeStart = (value: number) => {

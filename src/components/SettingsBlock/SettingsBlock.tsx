@@ -28,7 +28,7 @@ export const SettingsBlock = (props: SettingsBlockPropsType) => {
 
     const error = props.startValue >= props.maxValue && props.startValue > 0 ||
         props.startValue >= props.maxValue && props.maxValue > 0
-
+    // todo добавить инпут меньше единицы
 
 
 
@@ -36,7 +36,11 @@ export const SettingsBlock = (props: SettingsBlockPropsType) => {
     useEffect(() => {
         if (error) {
             props.onChangeError(true)
-        } else props.onChangeError(false)
+            props.onChangeSetButton(true)
+        } else {
+            props.onChangeError(false)
+            props.onChangeSetButton(false)
+        }
     }, [props.startValue, props.maxValue])
 
 
