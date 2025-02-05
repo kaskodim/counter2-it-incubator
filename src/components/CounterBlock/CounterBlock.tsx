@@ -11,20 +11,23 @@ export const CounterBlock = (props: CounterBlockPropsType) => {
     const [value, setValue] = React.useState<number>(props.startValue);
 
 
-    useEffect(() => {
-        setValue(props.startValue)
-    }, [props.startValue])
+    // useEffect(() => {
+    //     setValue(props.startValue)
+    // }, [props.startValue])
 
-
+    //
     const onClickAddValue = () => {
         if(value< props.maxValue) {
             setValue(value + 1);
         }
-    }
 
-    const onClickRemoveValue = () => {
-        setValue(props.startValue);
+            setValue(value + 1);
+
     }
+    //
+    // const onClickRemoveValue = () => {
+    //     setValue(props.startValue);
+    // }
 
     return (
         <Box>
@@ -34,7 +37,7 @@ export const CounterBlock = (props: CounterBlockPropsType) => {
 
             <BoxControlUnit>
                 <button onClick={onClickAddValue}>inc</button>
-                <button onClick={onClickRemoveValue}>reset</button>
+                {/*<button onClick={onClickRemoveValue}>reset</button>*/}
             </BoxControlUnit>
         </Box>
     );

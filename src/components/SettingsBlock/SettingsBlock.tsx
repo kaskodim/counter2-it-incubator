@@ -1,29 +1,43 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useEffect} from 'react';
 import {BoxControlUnit, Box, BoxScreen} from '../Сounter/Counter';
 
 type SettingsBlockPropsType = {
     onChangeStart: (value: number) => void
     onChangeMax: (value: number) => void
+    onChangeSetButton: (press: boolean) => void
+    isPressedSet: boolean
+    startValue: number
+    maxValue: number
+    onChangeError: (error: boolean) => void
+
 }
 
 
 export const SettingsBlock = (props: SettingsBlockPropsType) => {
 
-    const [currentValue, setCurrentValue] = React.useState<number>(0);
-    const [maxCurrentValue, setMaxCurrentValue] = React.useState<number>(0);
-
-
-    const onChangeStartHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setCurrentValue(+e.currentTarget.value)
+    const onChangeMaxValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        props.onChangeMax(+e.currentTarget.value)
     }
-    const onChangeMaxHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setMaxCurrentValue(+e.currentTarget.value)
+    const onChangeStartValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        props.onChangeStart(+e.currentTarget.value)
     }
 
     const setSettingsHandler = () => {
-        props.onChangeStart(currentValue)
-        props.onChangeMax(maxCurrentValue)
+        props.onChangeSetButton(true)
     }
+
+    const error = props.startValue >= props.maxValue && props.startValue > 0 ||
+        props.startValue >= props.maxValue && props.maxValue > 0
+
+
+
+
+
+    useEffect(() => {
+        if (error) {
+            props.onChangeError(true)
+        } else props.onChangeError(false)
+    }, [props.startValue, props.maxValue])
 
 
     return (
@@ -32,23 +46,26 @@ export const SettingsBlock = (props: SettingsBlockPropsType) => {
                 <div>
                     <span>max value:</span>
                     <input type={'number'}
-                           onChange={onChangeMaxHandler}
-                           value={maxCurrentValue}
+                           onChange={onChangeMaxValueHandler}
+
                     />
                 </div>
                 <div>
                     <span>start value:</span>
                     <input type={'number'}
-                           value={currentValue}
-                           onChange={onChangeStartHandler}
+                           onChange={onChangeStartValueHandler}
+
+
                     />
                 </div>
             </BoxScreen>
             <BoxControlUnit>
-                <button onClick={setSettingsHandler}
 
+                <button disabled={props.isPressedSet}
+                        onClick={setSettingsHandler}
                 >set
                 </button>
+
             </BoxControlUnit>
 
         </Box>

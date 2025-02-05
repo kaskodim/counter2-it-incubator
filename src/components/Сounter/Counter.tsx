@@ -2,60 +2,54 @@ import React from 'react';
 import {CounterBlock} from '../CounterBlock/CounterBlock';
 import {SettingsBlock} from '../SettingsBlock/SettingsBlock';
 import styled from 'styled-components';
+import {Simulate} from 'react-dom/test-utils';
+import error = Simulate.error;
 
 
 export const Counter = () => {
 
-const [startValue, setStartValue] = React.useState<number>(0);
-const [maxValue, setMaxValue] = React.useState<number>(0);
+    const [startValue, setStartValue] = React.useState<number>(0);
+    const [maxValue, setMaxValue] = React.useState<number>(0);
+    const [isPressedSet, setIsPressedSet] = React.useState<boolean>(false);
+    const [isError, setIsError] = React.useState<boolean>(false);
 
-    console.log({startValue}, {maxValue})
+    console.log({startValue}, {maxValue}, {isPressedSet}, {isError});
+
 
     const onChangeStart = (value: number) => {
         setStartValue(value)
     }
+
     const onChangeMax = (value: number) => {
         setMaxValue(value)
     }
 
+    const onChangeSetButton = (press: boolean) => {
+        setIsPressedSet(press)
+    }
 
+    const onChangeError = (error: boolean) => {
+        setIsError(error)
+    }
 
     return (
         <Wrapper>
             <SettingsBlock onChangeStart={onChangeStart}
                            onChangeMax={onChangeMax}
-            />
-
-
-
-
-
-
-            <CounterBlock startValue={startValue}
-                          maxValue={maxValue}
+                           onChangeSetButton={onChangeSetButton}
+                           isPressedSet={isPressedSet}
+                           startValue={startValue}
+                           maxValue={maxValue}
+                           onChangeError={onChangeError}
 
             />
+            {/*<CounterBlock startValue={startValue}*/}
+            {/*              maxValue={maxValue}*/}
+
+            {/*/>*/}
         </Wrapper>
     );
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 const Wrapper = styled.div`
