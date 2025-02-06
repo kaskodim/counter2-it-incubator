@@ -1,47 +1,71 @@
 import React, {ChangeEvent, useEffect} from 'react';
-import {BoxControlUnit, Box, BoxScreen} from '../Сounter/Counter';
+import {BoxControlUnit, Box, BoxScreen, ValuesType} from '../Сounter/Counter';
 
 type SettingsBlockPropsType = {
-    onChangeStart: (value: number) => void
-    onChangeMax: (value: number) => void
-    onChangeSetButton: (press: boolean) => void
     isPressedSet: boolean
-    startValue: number
-    maxValue: number
+    values: ValuesType
+    onChangeValues: (field: 'start' | 'max', value: number) => void
+    onChangeSetButton: (press: boolean) => void
     onChangeError: (error: boolean) => void
-
+    onChangeIsMassageFlag: (flag: boolean) => void
 }
-
 
 export const SettingsBlock = (props: SettingsBlockPropsType) => {
 
+    const [isPressedResetSettings, setIsPressedResetSettings] = React.useState<boolean>(false);
+
+    const negativeValues = props.values.start < 0 || props.values.max < 0
+    const startHigherMaximum = props.values.start >= props.values.max &&
+        (props.values.start > 0 || props.values.max > 0)
+
+    const error = negativeValues || startHigherMaximum
+    const valuesZero = props.values.start === 0 && props.values.max === 0
+
     const onChangeMaxValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        props.onChangeMax(+e.currentTarget.value)
+        props.onChangeValues('max', +e.currentTarget.value)
+        setIsPressedResetSettings(false)
     }
     const onChangeStartValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        props.onChangeStart(+e.currentTarget.value)
+      props.onChangeValues('start', +e.currentTarget.value)
+        setIsPressedResetSettings(false)
     }
 
     const setSettingsHandler = () => {
+        localStorage.setItem('values', JSON.stringify(props.values));
         props.onChangeSetButton(true)
+        props.onChangeIsMassageFlag(false)
+        props.onChangeError(false)
     }
 
-    const error = props.startValue >= props.maxValue && props.startValue > 0 ||
-        props.startValue >= props.maxValue && props.maxValue > 0
-    // todo добавить инпут меньше единицы
-
-
-
+    const resetSettingsHandler = () => {
+        props.onChangeValues('start', 0)
+        props.onChangeValues('max', 0)
+        setIsPressedResetSettings(true)
+        localStorage.clear()
+    }
 
     useEffect(() => {
+        if (valuesZero) {
+            setIsPressedResetSettings(true)
+        }
+
         if (error) {
             props.onChangeError(true)
+            props.onChangeIsMassageFlag(false)
             props.onChangeSetButton(true)
-        } else {
+
+        } else if (!error && valuesZero) {
+            props.onChangeError(false)
+            props.onChangeIsMassageFlag(true)
+            props.onChangeSetButton(true)
+
+        } else if (!error && !valuesZero) {
+            props.onChangeIsMassageFlag(true)
             props.onChangeError(false)
             props.onChangeSetButton(false)
         }
-    }, [props.startValue, props.maxValue])
+
+    }, [props.values])
 
 
     return (
@@ -50,6 +74,7 @@ export const SettingsBlock = (props: SettingsBlockPropsType) => {
                 <div>
                     <span>max value:</span>
                     <input type={'number'}
+                           value={props.values.max}
                            onChange={onChangeMaxValueHandler}
 
                     />
@@ -57,21 +82,26 @@ export const SettingsBlock = (props: SettingsBlockPropsType) => {
                 <div>
                     <span>start value:</span>
                     <input type={'number'}
+                           value={props.values.start}
                            onChange={onChangeStartValueHandler}
-
-
                     />
                 </div>
             </BoxScreen>
             <BoxControlUnit>
 
-                <button disabled={props.isPressedSet}
-                        onClick={setSettingsHandler}
-                >set
+                <button disabled={isPressedResetSettings}
+                        onClick={resetSettingsHandler}>
+                    reset settings
+                </button>
+
+
+                <button
+                    disabled={props.isPressedSet}
+                    onClick={setSettingsHandler}>
+                    set
                 </button>
 
             </BoxControlUnit>
-
         </Box>
     );
 };

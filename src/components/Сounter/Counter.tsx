@@ -1,53 +1,74 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {CounterBlock} from '../CounterBlock/CounterBlock';
 import {SettingsBlock} from '../SettingsBlock/SettingsBlock';
 import styled from 'styled-components';
-import {Simulate} from 'react-dom/test-utils';
-import error = Simulate.error;
 
+type CounterProps = {
+    localValue: ValuesType
+}
 
-export const Counter = () => {
+export type ValuesType = {
+    start: number
+    max: number
+}
 
-    // это объект
-    const [startValue, setStartValue] = React.useState<number>(0);
-    const [maxValue, setMaxValue] = React.useState<number>(0);
+export const Counter = (props: CounterProps) => {
+
+    const [values, setValues] = React.useState<ValuesType>(
+        {
+            max: 3,
+            start: 1
+        },
+    );
     const [isPressedSet, setIsPressedSet] = React.useState<boolean>(false);
     const [isError, setIsError] = React.useState<boolean>(false);
+    const [isMassageFlag, setIsMassageFlag] = React.useState<boolean>(false);
 
-    // console.log({startValue}, {maxValue}, {isPressedSet}, {isError});
+    useEffect(() => {
+        setValues(props.localValue)
+    }, []);
 
+    const onChangeValues = (field: 'start' | 'max', value: number) => {
+        if (field === 'start') {
+            setValues((prev) => ({...prev, start: value}));
+        }
 
-    const onChangeStart = (value: number) => {
-        setStartValue(value)
-    }
-
-    const onChangeMax = (value: number) => {
-        setMaxValue(value)
+        if (field === 'max') {
+            setValues((prev) => ({...prev, max: value}));
+        }
     }
 
     const onChangeSetButton = (press: boolean) => {
         setIsPressedSet(press)
     }
 
-    const onChangeError = (error: boolean) => {
+    const onChangeIsError = (error: boolean) => {
         setIsError(error)
     }
 
+    const onChangeIsMassageFlag = (flag: boolean) => {
+        setIsMassageFlag(flag)
+    }
+
+    useEffect(() => {
+        setValues(props.localValue)
+    }, []);
+
     return (
         <Wrapper>
-            <SettingsBlock onChangeStart={onChangeStart}
-                           onChangeMax={onChangeMax}
+            <SettingsBlock isPressedSet={isPressedSet}
+                           values={values}
+                           onChangeValues={onChangeValues}
                            onChangeSetButton={onChangeSetButton}
-                           isPressedSet={isPressedSet}
-                           startValue={startValue}
-                           maxValue={maxValue}
-                           onChangeError={onChangeError}
+                           onChangeError={onChangeIsError}
+                           onChangeIsMassageFlag={onChangeIsMassageFlag}
 
             />
-            {/*<CounterBlock startValue={startValue}*/}
-            {/*              maxValue={maxValue}*/}
 
-            {/*/>*/}
+            <CounterBlock values={values}
+                          isError={isError}
+                          isMassageFlag={isMassageFlag}
+            />
         </Wrapper>
     );
 };
@@ -88,4 +109,5 @@ export const BoxControlUnit = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-around;
+
 `
