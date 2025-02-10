@@ -51,11 +51,11 @@ export const CounterBlock = (props: CounterBlockPropsType) => {
             <BoxScreen>
                 {
                     props.isError ? (
-                        <span>ошибка</span>
+                        <span>Incorrect value!</span>
                     ) : props.isMassageFlag ? (
-                        <span>нажмите SET</span>
+                        <span>Enter values and press 'set'</span>
                     ) : (
-                        value
+                        <span>{value}</span>
                     )
                 }
             </BoxScreen>
@@ -73,52 +73,3 @@ export const CounterBlock = (props: CounterBlockPropsType) => {
 };
 
 
-//{
-//    body {
-//             display: flex;
-//             justify-content: center;
-//             align-items: center;
-//             height: 100vh;
-//             background-color: #000;
-//             margin: 0;
-//         }
-//         .container {
-//             display: flex;
-//             gap: 20px;
-//         }
-//         .box {
-//             border: 2px solid #00ffff;
-//             padding: 20px;
-//             border-radius: 10px;
-//         }
-//         .box input {
-//             width: 100%;
-//             padding: 10px;
-//             margin: 5px 0;
-//             border: 1px solid #00ffff;
-//             border-radius: 5px;
-//             background-color: #000;
-//             color: #fff;
-//             text-align: center;
-//         }
-//         .box button {
-//             width: 100%;
-//             padding: 10px;
-//             margin: 5px 0;
-//             border: 1px solid #00ffff;
-//             border-radius: 5px;
-//             background-color: #000;
-//             color: #fff;
-//             cursor: pointer;
-//         }
-//         .box button:hover {
-//             background-color: #00ffff;
-//             color: #000;
-//         }
-//         .box .value {
-//             font-size: 24px;
-//             color: #ff0000;
-//             text-align: center;
-//             margin-top: 20px;
-//         }
-// }

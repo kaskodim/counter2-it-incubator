@@ -3,29 +3,31 @@ import {CounterBlock} from '../CounterBlock/CounterBlock';
 import {SettingsBlock} from '../SettingsBlock/SettingsBlock';
 import styled from 'styled-components';
 
-type CounterProps = {
-    localValue: ValuesType
-}
-
 export type ValuesType = {
     start: number
     max: number
 }
 
-export const Counter = (props: CounterProps) => {
+export const Counter = () => {
 
     const [values, setValues] = React.useState<ValuesType>(
         {
-            max: 3,
-            start: 1
+            max: 0,
+            start: 0
         },
     );
     const [isPressedSet, setIsPressedSet] = React.useState<boolean>(false);
     const [isError, setIsError] = React.useState<boolean>(false);
     const [isMassageFlag, setIsMassageFlag] = React.useState<boolean>(false);
 
+    console.log(values, {isPressedSet}, {isError}, {isMassageFlag})
+
     useEffect(() => {
-        setValues(props.localValue)
+        const getLocalValue = localStorage.getItem('values')
+        if (getLocalValue) {
+            const getLocalValueParse = JSON.parse(getLocalValue)
+            setValues(getLocalValueParse)
+        }
     }, []);
 
     const onChangeValues = (field: 'start' | 'max', value: number) => {
@@ -49,10 +51,6 @@ export const Counter = (props: CounterProps) => {
     const onChangeIsMassageFlag = (flag: boolean) => {
         setIsMassageFlag(flag)
     }
-
-    useEffect(() => {
-        setValues(props.localValue)
-    }, []);
 
     return (
         <Wrapper>

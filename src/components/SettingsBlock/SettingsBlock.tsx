@@ -41,11 +41,14 @@ export const SettingsBlock = (props: SettingsBlockPropsType) => {
         props.onChangeValues('start', 0)
         props.onChangeValues('max', 0)
         setIsPressedResetSettings(true)
+        props.onChangeSetButton(true)
+        props.onChangeError(false)
+        props.onChangeIsMassageFlag(false)
         localStorage.clear()
     }
 
     useEffect(() => {
-        if (valuesZero) {
+        if (valuesZero && !localStorage.getItem('values')) {
             setIsPressedResetSettings(true)
         }
 
@@ -75,6 +78,7 @@ export const SettingsBlock = (props: SettingsBlockPropsType) => {
                     <span>max value:</span>
                     <input type={'number'}
                            value={props.values.max}
+                           defaultValue={0}
                            onChange={onChangeMaxValueHandler}
 
                     />
@@ -83,6 +87,7 @@ export const SettingsBlock = (props: SettingsBlockPropsType) => {
                     <span>start value:</span>
                     <input type={'number'}
                            value={props.values.start}
+                           defaultValue={0}
                            onChange={onChangeStartValueHandler}
                     />
                 </div>
