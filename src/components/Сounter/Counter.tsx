@@ -60,6 +60,7 @@ export const Counter = () => {
                            onChangeSetButton={onChangeSetButton}
                            onChangeError={onChangeIsError}
                            onChangeIsMassageFlag={onChangeIsMassageFlag}
+                           isError={isError}
 
             />
 
@@ -79,24 +80,28 @@ const Wrapper = styled.div`
 `
 
 export const Box = styled.div`
-    width: 300px;
-    border: 2px solid #68d7f6;
+    min-width: 400px;
+    border: 2px solid #68D7F6FF;
     border-radius: 10px;
     padding: 15px;
     gap: 15px;
     display: flex;
     flex-direction: column;
+    font-size: 25px;
+    color: #68D7F6FF;
 `
 
 export const BoxScreen = styled.span`
-    //font-size: 50px;
-    min-height: 120px;
+
+    min-height: 140px;
     border: 2px solid #68d7f6;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 20px;
+    
 
 `
 
@@ -108,4 +113,14 @@ export const BoxControlUnit = styled.div`
     align-items: center;
     justify-content: space-around;
 
+`
+
+export const Button = styled.button`
+background-color: #68d7f6;
+    font-size: 25px;
+    font-weight: bold;
+    
+    &:disabled{
+        background-color: #292c35;
+    }
 `

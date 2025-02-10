@@ -1,5 +1,6 @@
 import React, {ChangeEvent, useEffect} from 'react';
-import {BoxControlUnit, Box, BoxScreen, ValuesType} from '../Сounter/Counter';
+import {BoxControlUnit, Box, BoxScreen, ValuesType, Button} from '../Сounter/Counter';
+import styled from 'styled-components';
 
 type SettingsBlockPropsType = {
     isPressedSet: boolean
@@ -8,6 +9,7 @@ type SettingsBlockPropsType = {
     onChangeSetButton: (press: boolean) => void
     onChangeError: (error: boolean) => void
     onChangeIsMassageFlag: (flag: boolean) => void
+    isError:boolean
 }
 
 export const SettingsBlock = (props: SettingsBlockPropsType) => {
@@ -26,7 +28,7 @@ export const SettingsBlock = (props: SettingsBlockPropsType) => {
         setIsPressedResetSettings(false)
     }
     const onChangeStartValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
-      props.onChangeValues('start', +e.currentTarget.value)
+        props.onChangeValues('start', +e.currentTarget.value)
         setIsPressedResetSettings(false)
     }
 
@@ -74,39 +76,59 @@ export const SettingsBlock = (props: SettingsBlockPropsType) => {
     return (
         <Box>
             <BoxScreen>
-                <div>
+                <WrapperValues>
                     <span>max value:</span>
-                    <input type={'number'}
+                    <Input type={'number'}
                            value={props.values.max}
                            defaultValue={0}
                            onChange={onChangeMaxValueHandler}
+                           isError={props.isError}
 
                     />
-                </div>
-                <div>
+                </WrapperValues>
+                <WrapperValues>
                     <span>start value:</span>
-                    <input type={'number'}
+                    <Input type={'number'}
                            value={props.values.start}
                            defaultValue={0}
                            onChange={onChangeStartValueHandler}
+                           isError={props.isError}
+
+
                     />
-                </div>
+                </WrapperValues>
             </BoxScreen>
             <BoxControlUnit>
 
-                <button disabled={isPressedResetSettings}
+                <Button disabled={isPressedResetSettings}
                         onClick={resetSettingsHandler}>
                     reset settings
-                </button>
+                </Button>
 
 
-                <button
+                <Button
                     disabled={props.isPressedSet}
                     onClick={setSettingsHandler}>
                     set
-                </button>
+                </Button>
 
             </BoxControlUnit>
         </Box>
     );
 };
+
+const WrapperValues = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+`
+
+const Input = styled.input<{isError: boolean}>`
+    border-radius: 5px;
+    outline: none;
+    background-color: ${props => props.isError ? '#ffe0e0' : ''};
+    border: ${props => props.isError ? '4px solid red' : '4px solid #68D7F6FF'};
+
+
+
+`
