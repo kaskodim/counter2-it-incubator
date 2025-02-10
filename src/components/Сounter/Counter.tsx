@@ -1,8 +1,7 @@
 import React, {useEffect} from 'react';
 import {CounterBlock} from '../CounterBlock/CounterBlock';
 import {SettingsBlock} from '../SettingsBlock/SettingsBlock';
-import styled from 'styled-components';
-
+import {Wrapper} from './styles';
 
 const INITIAL_VALUES =  {max: 0, start: 0}
 export const KEY_VALUES = 'values'
@@ -68,55 +67,3 @@ export const Counter = () => {
     );
 };
 
-
-const Wrapper = styled.div`
-    display: flex;
-    gap: 40px;
-
-`
-
-export const Box = styled.div`
-    min-width: 400px;
-    border: 2px solid #68D7F6FF;
-    border-radius: 10px;
-    padding: 15px;
-    gap: 15px;
-    display: flex;
-    flex-direction: column;
-    font-size: 25px;
-    color: #68D7F6FF;
-`
-
-export const BoxScreen = styled.span`
-
-    min-height: 140px;
-    border: 2px solid #68d7f6;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-
-
-`
-
-export const BoxControlUnit = styled.div`
-    min-height: 80px;
-    border: 2px solid #68d7f6;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-
-`
-
-export const Button = styled.button`
-    background-color: #68d7f6;
-    font-size: 25px;
-    font-weight: bold;
-
-    &:disabled {
-        background-color: #292c35;
-    }
-`

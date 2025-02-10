@@ -1,6 +1,8 @@
 import React, {useEffect} from 'react';
-import {BoxControlUnit, Box, BoxScreen, ValuesType} from '../Сounter/Counter';
+import {ValuesType} from '../Сounter/Counter';
 import styled from 'styled-components';
+import {Button} from '../../styles/Button';
+import {Box, BoxControlUnit, BoxScreen} from '../Сounter/styles';
 
 type CounterBlockPropsType = {
     values: ValuesType
@@ -44,12 +46,12 @@ export const CounterBlock = (props: CounterBlockPropsType) => {
             </BoxScreen>
 
             <BoxControlUnit>
-                <button disabled={isIncDisabled}
+                <Button disabled={isIncDisabled}
                         onClick={onClickAddValue}>inc
-                </button>
-                <button disabled={isResetDisabled}
+                </Button>
+                <Button disabled={isResetDisabled}
                         onClick={onClickResetValue}>reset
-                </button>
+                </Button>
             </BoxControlUnit>
         </Box>
     );

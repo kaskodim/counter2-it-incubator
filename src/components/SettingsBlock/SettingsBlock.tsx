@@ -1,20 +1,26 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
-import {BoxControlUnit, Box, BoxScreen, ValuesType, Button, KEY_VALUES, FieldType} from '../Сounter/Counter';
+import React, {ChangeEvent, useEffect} from 'react';
+import {ValuesType, KEY_VALUES, FieldType} from '../Сounter/Counter';
 import styled from 'styled-components';
+import {Button} from '../../styles/Button';
+import {ERROR_BGC_COLOR, ERROR_BGC_INPUT, PRIMARY_COLOR} from '../../constansts';
+import {Box, BoxControlUnit, BoxScreen} from '../Сounter/styles';
 
 type SettingsBlockPropsType = {
     isDisabledSet: boolean
     values: ValuesType
     onChangeValues: (field: FieldType, value: number) => void
     updStatusSetButton: (isPress: boolean) => void
-    updErrorStatus: (error: boolean) => void
-    updMessageFlag: (flag: boolean) => void
+    updErrorStatus: (isError: boolean) => void
+    updMessageFlag: (isFlag: boolean) => void
     isError: boolean
 }
 
 export const SettingsBlock = (props: SettingsBlockPropsType) => {
 
-    const [status, setStatus] = useState<'error' | 'message' | 'success'>('error')
+    // const [status, setStatus] = useState<'error' | 'message' | 'ready'>('message')
+    // перейти на state status
+
+
     const [isPressedResetSettings, setIsPressedResetSettings] = React.useState<boolean>(false);
 
     const isNegativeValues = props.values.start < 0 || props.values.max < 0;
@@ -97,17 +103,17 @@ export const SettingsBlock = (props: SettingsBlockPropsType) => {
             </BoxScreen>
             <BoxControlUnit>
 
-                <button disabled={isPressedResetSettings}
+                <Button disabled={isPressedResetSettings}
                         onClick={resetSettingsHandler}>
                     reset settings
-                </button>
+                </Button>
 
 
-                <button
+                <Button
                     disabled={props.isDisabledSet}
                     onClick={setSettingsHandler}>
                     set
-                </button>
+                </Button>
 
             </BoxControlUnit>
         </Box>
@@ -118,13 +124,15 @@ const WrapperValues = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-around;
+    //gap: 10px;
+    //padding: 10px;
 `
 
 const Input = styled.input<{ isError: boolean }>`
     border-radius: 5px;
     outline: none;
-    background-color: ${props => props.isError ? '#ffe0e0' : ''};
-    border: ${props => props.isError ? '4px solid red' : '4px solid #68D7F6FF'};
+    background-color: ${props => props.isError ? ERROR_BGC_INPUT : ''};
+    border: ${props => props.isError ? `4px solid ${ERROR_BGC_COLOR}` : `4px solid ${PRIMARY_COLOR}`};
 
 
 
