@@ -1,27 +1,28 @@
-import React, {ChangeEvent, useEffect} from 'react';
-import {BoxControlUnit, Box, BoxScreen, ValuesType, Button} from '../Сounter/Counter';
+import React, {ChangeEvent, useEffect, useState} from 'react';
+import {BoxControlUnit, Box, BoxScreen, ValuesType, Button, KEY_VALUES, FieldType} from '../Сounter/Counter';
 import styled from 'styled-components';
 
 type SettingsBlockPropsType = {
-    isPressedSet: boolean
+    isDisabledSet: boolean
     values: ValuesType
-    onChangeValues: (field: 'start' | 'max', value: number) => void
-    onChangeSetButton: (press: boolean) => void
-    onChangeError: (error: boolean) => void
-    onChangeIsMassageFlag: (flag: boolean) => void
-    isError:boolean
+    onChangeValues: (field: FieldType, value: number) => void
+    updStatusSetButton: (isPress: boolean) => void
+    updErrorStatus: (error: boolean) => void
+    updMessageFlag: (flag: boolean) => void
+    isError: boolean
 }
 
 export const SettingsBlock = (props: SettingsBlockPropsType) => {
 
+    const [status, setStatus] = useState<'error' | 'message' | 'success'>('error')
     const [isPressedResetSettings, setIsPressedResetSettings] = React.useState<boolean>(false);
 
-    const negativeValues = props.values.start < 0 || props.values.max < 0
-    const startHigherMaximum = props.values.start >= props.values.max &&
-        (props.values.start > 0 || props.values.max > 0)
+    const isNegativeValues = props.values.start < 0 || props.values.max < 0;
+    const isStartHigherMaximum = props.values.start >= props.values.max &&
+        (props.values.start > 0 || props.values.max > 0);
 
-    const error = negativeValues || startHigherMaximum
-    const valuesZero = props.values.start === 0 && props.values.max === 0
+    const isError = isNegativeValues || isStartHigherMaximum
+    const isValuesZero = props.values.start === 0 && props.values.max === 0
 
     const onChangeMaxValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
         props.onChangeValues('max', +e.currentTarget.value)
@@ -33,43 +34,44 @@ export const SettingsBlock = (props: SettingsBlockPropsType) => {
     }
 
     const setSettingsHandler = () => {
-        localStorage.setItem('values', JSON.stringify(props.values));
-        props.onChangeSetButton(true)
-        props.onChangeIsMassageFlag(false)
-        props.onChangeError(false)
+        localStorage.setItem(KEY_VALUES, JSON.stringify(props.values));
+        props.updStatusSetButton(true)
+        props.updMessageFlag(false)
+        props.updErrorStatus(false)
     }
 
     const resetSettingsHandler = () => {
         props.onChangeValues('start', 0)
         props.onChangeValues('max', 0)
         setIsPressedResetSettings(true)
-        props.onChangeSetButton(true)
-        props.onChangeError(false)
-        props.onChangeIsMassageFlag(false)
+        props.updStatusSetButton(true)
+        props.updErrorStatus(false)
+        props.updMessageFlag(false)
         localStorage.clear()
     }
 
+
+    // переписать useEffect
     useEffect(() => {
-        if (valuesZero && !localStorage.getItem('values')) {
+        if (isValuesZero && !localStorage.getItem(KEY_VALUES)) {
             setIsPressedResetSettings(true)
         }
 
-        if (error) {
-            props.onChangeError(true)
-            props.onChangeIsMassageFlag(false)
-            props.onChangeSetButton(true)
+        if (isError) {
+            props.updErrorStatus(true)
+            props.updMessageFlag(false)
+            props.updStatusSetButton(true)
 
-        } else if (!error && valuesZero) {
-            props.onChangeError(false)
-            props.onChangeIsMassageFlag(true)
-            props.onChangeSetButton(true)
+        } else if (isValuesZero) {
+            props.updErrorStatus(false)
+            props.updMessageFlag(true)
+            props.updStatusSetButton(true)
 
-        } else if (!error && !valuesZero) {
-            props.onChangeIsMassageFlag(true)
-            props.onChangeError(false)
-            props.onChangeSetButton(false)
+        } else if (!isError && !isValuesZero) {
+            props.updMessageFlag(true)
+            props.updErrorStatus(false)
+            props.updStatusSetButton(false)
         }
-
     }, [props.values])
 
 
@@ -80,37 +82,32 @@ export const SettingsBlock = (props: SettingsBlockPropsType) => {
                     <span>max value:</span>
                     <Input type={'number'}
                            value={props.values.max}
-                           defaultValue={0}
                            onChange={onChangeMaxValueHandler}
                            isError={props.isError}
-
                     />
                 </WrapperValues>
                 <WrapperValues>
                     <span>start value:</span>
                     <Input type={'number'}
                            value={props.values.start}
-                           defaultValue={0}
                            onChange={onChangeStartValueHandler}
                            isError={props.isError}
-
-
                     />
                 </WrapperValues>
             </BoxScreen>
             <BoxControlUnit>
 
-                <Button disabled={isPressedResetSettings}
+                <button disabled={isPressedResetSettings}
                         onClick={resetSettingsHandler}>
                     reset settings
-                </Button>
+                </button>
 
 
-                <Button
-                    disabled={props.isPressedSet}
+                <button
+                    disabled={props.isDisabledSet}
                     onClick={setSettingsHandler}>
                     set
-                </Button>
+                </button>
 
             </BoxControlUnit>
         </Box>
@@ -123,7 +120,7 @@ const WrapperValues = styled.div`
     justify-content: space-around;
 `
 
-const Input = styled.input<{isError: boolean}>`
+const Input = styled.input<{ isError: boolean }>`
     border-radius: 5px;
     outline: none;
     background-color: ${props => props.isError ? '#ffe0e0' : ''};
