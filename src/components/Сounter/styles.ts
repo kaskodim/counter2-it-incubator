@@ -18,19 +18,20 @@ export const Box = styled.div`
      gap: 15px;
      font-size: 25px;
      color: ${PRIMARY_COLOR};
+    user-select: none;
 `
 
 export const BoxScreen = styled.span`
-    // max-width: 400px;
-    // min-height: 140px;
-     padding: 25px;
-     border: 2px solid ${PRIMARY_COLOR};
-     border-radius: 10px;
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-     justify-content: center;
-     gap: 20px;
+
+    padding: 20px;
+    border: 2px solid ${PRIMARY_COLOR};
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-grow: 1;
 
 `
 

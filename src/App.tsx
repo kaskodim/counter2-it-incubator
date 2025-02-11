@@ -3,6 +3,9 @@ import {Counter} from './components/Сounter/Counter';
 
 function App() {
 
+
+
+
     return (
         <div className="App">
             <Counter/>

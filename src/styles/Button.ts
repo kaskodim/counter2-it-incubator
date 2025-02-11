@@ -7,6 +7,7 @@ export const Button = styled.button`
     font-weight: bold;
     border-radius: 8px;
     color: ${SECONDARY_COLOR};
+
     
     &:active{
         background-color: ${SECONDARY_COLOR};

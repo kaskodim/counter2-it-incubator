@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {ValuesType} from '../Сounter/Counter';
+import {StatusType, ValuesType} from '../Сounter/Counter';
 
 import {Button} from '../../styles/Button';
 import {Box, BoxControlUnit, BoxScreen} from '../Сounter/styles';
@@ -7,27 +7,29 @@ import {TitleScreen, ValueScreen} from './styles';
 
 type CounterBlockPropsType = {
     values: ValuesType
-    isError: boolean
-    isMassageFlag: boolean
+    status: StatusType
 }
 
 export const CounterBlock = (props: CounterBlockPropsType) => {
 
     const [value, setValue] = React.useState<number>(props.values.start);
 
-    const isIncDisabled = value === props.values.max || props.isError || props.isMassageFlag
-    const isResetDisabled = value === props.values.start || props.isError || props.isMassageFlag
+    const isIncDisabled = value === props.values.max || props.status !== 'value';
+    // оставить проверку на статус, без нее бага при быстром изменении значения
+    const isResetDisabled = value === props.values.start || props.status !== 'value';
+
+    const isShowError = props.status === 'error';
+    const isShowMessage = props.status === 'message';
+    const isShowValue = props.status === 'value';
 
     const onClickAddValue = () => {
         if (value < props.values.max) {
             setValue(value + 1);
         }
     }
-
     const onClickResetValue = () => {
         setValue(props.values.start);
     }
-
     useEffect(() => {
         setValue(props.values.start)
     }, [props.values.start]);
@@ -35,15 +37,9 @@ export const CounterBlock = (props: CounterBlockPropsType) => {
     return (
         <Box>
             <BoxScreen>
-                {
-                    props.isError ? (
-                        <TitleScreen isError={props.isError}>Incorrect value!</TitleScreen>
-                    ) : props.isMassageFlag ? (
-                        <TitleScreen isError={props.isError}>Enter values and press 'set'</TitleScreen>
-                    ) : (
-                        <ValueScreen isPressedInc={isIncDisabled}>{value}</ValueScreen>
-                    )
-                }
+                {isShowError && <TitleScreen isError>Incorrect value!</TitleScreen>}
+                {isShowMessage && <TitleScreen >Enter values and press 'set'</TitleScreen>}
+                {isShowValue && <ValueScreen isMax={isIncDisabled}>{value}</ValueScreen>}
             </BoxScreen>
 
             <BoxControlUnit>

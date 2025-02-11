@@ -1,67 +1,47 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {CounterBlock} from '../CounterBlock/CounterBlock';
 import {SettingsBlock} from '../SettingsBlock/SettingsBlock';
 import {Wrapper} from './styles';
 
-const INITIAL_VALUES =  {max: 0, start: 0}
-export const KEY_VALUES = 'values'
 
 export type ValuesType = {
     start: number
     max: number
 }
 export type FieldType = keyof ValuesType;
+export type StatusType = 'error' | 'message' | 'value'
+
+export const KEY_SETTINGS_VALUES = 'values'
+const INITIAL_VALUES: ValuesType = {max: 0, start: 0}
 
 export const Counter = () => {
-
     const [values, setValues] = React.useState<ValuesType>(INITIAL_VALUES);
-    const [isDisabledSet, setIsDisabledSet] = React.useState<boolean>(false);
-    const [isError, setIsError] = React.useState<boolean>(false);
-    const [isMessageFlag, setIsMessageFlag] = React.useState<boolean>(false);
+    const [status, setStatus] = useState<StatusType>('message')
 
-    console.log(values, {isDisabledSet}, {isError}, {isMessageFlag})
+    console.log(values, {status})
 
     useEffect(() => {
-        const getLocalValue = localStorage.getItem(KEY_VALUES)
-        if (getLocalValue) {
-            const getLocalValueParse = JSON.parse(getLocalValue)
-            setValues(getLocalValueParse)
+        const getLocalValues = localStorage.getItem(KEY_SETTINGS_VALUES)
+        if (getLocalValues) {
+            const parseLocalValue = JSON.parse(getLocalValues)
+            setValues(parseLocalValue)
         }
     }, []);
 
     const onChangeValues = (field: FieldType, value: number) => {
-
-        if (field === 'start') {
-            setValues((prev) => ({...prev, start: value}));
-        }
-        if (field === 'max') {
-            setValues((prev) => ({...prev, max: value}));
-        }
-    }
-    const updStatusSetButton = (isPress: boolean) => {
-        setIsDisabledSet(isPress)
-    }
-    const updErrorStatus = (isError: boolean) => {
-        setIsError(isError)
-    }
-    const updMessageFlag = (isFlag: boolean) => {
-        setIsMessageFlag(isFlag)
+        setValues(prev => ({...prev, [field]: value}));
     }
 
     return (
         <Wrapper>
-            <SettingsBlock isDisabledSet={isDisabledSet}
-                           values={values}
+            <SettingsBlock values={values}
                            onChangeValues={onChangeValues}
-                           updStatusSetButton={updStatusSetButton}
-                           updErrorStatus={updErrorStatus}
-                           updMessageFlag={updMessageFlag}
-                           isError={isError}
+                           status={status}
+                           setStatus={setStatus}
             />
 
             <CounterBlock values={values}
-                          isError={isError}
-                          isMassageFlag={isMessageFlag}
+                          status={status}
             />
         </Wrapper>
     );
