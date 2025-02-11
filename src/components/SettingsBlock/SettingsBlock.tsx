@@ -1,9 +1,8 @@
 import React, {ChangeEvent, useEffect} from 'react';
 import {ValuesType, KEY_VALUES, FieldType} from '../Сounter/Counter';
-import styled from 'styled-components';
 import {Button} from '../../styles/Button';
-import {ERROR_BGC_COLOR, ERROR_BGC_INPUT, PRIMARY_COLOR} from '../../constansts';
 import {Box, BoxControlUnit, BoxScreen} from '../Сounter/styles';
+import {Input, WrapperValues} from './styles';
 
 type SettingsBlockPropsType = {
     isDisabledSet: boolean
@@ -55,7 +54,6 @@ export const SettingsBlock = (props: SettingsBlockPropsType) => {
         props.updMessageFlag(false)
         localStorage.clear()
     }
-
 
     // переписать useEffect
     useEffect(() => {
@@ -120,20 +118,3 @@ export const SettingsBlock = (props: SettingsBlockPropsType) => {
     );
 };
 
-const WrapperValues = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    //gap: 10px;
-    //padding: 10px;
-`
-
-const Input = styled.input<{ isError: boolean }>`
-    border-radius: 5px;
-    outline: none;
-    background-color: ${props => props.isError ? ERROR_BGC_INPUT : ''};
-    border: ${props => props.isError ? `4px solid ${ERROR_BGC_COLOR}` : `4px solid ${PRIMARY_COLOR}`};
-
-
-
-`

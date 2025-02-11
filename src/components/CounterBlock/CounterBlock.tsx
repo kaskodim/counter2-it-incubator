@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react';
 import {ValuesType} from '../Сounter/Counter';
-import styled from 'styled-components';
+
 import {Button} from '../../styles/Button';
 import {Box, BoxControlUnit, BoxScreen} from '../Сounter/styles';
+import {TitleScreen, ValueScreen} from './styles';
 
 type CounterBlockPropsType = {
     values: ValuesType
@@ -58,13 +59,4 @@ export const CounterBlock = (props: CounterBlockPropsType) => {
 };
 
 
-const TitleScreen = styled.span<{ isError: boolean }>`
-    color: ${props => props.isError ? 'red' : ''};
-`
 
-const ValueScreen = styled.span<{ isPressedInc: boolean }>`
-    font-size: ${props => props.isPressedInc ? '50px' : '46px'};
-    font-weight: bold;
-    color: ${props => props.isPressedInc ? 'red' : ''}
-
-`

@@ -19,7 +19,7 @@ export const Counter = () => {
     const [isError, setIsError] = React.useState<boolean>(false);
     const [isMessageFlag, setIsMessageFlag] = React.useState<boolean>(false);
 
-    console.log(values, {isDisabledSet}, {isError}, {isMassageFlag: isMessageFlag})
+    console.log(values, {isDisabledSet}, {isError}, {isMessageFlag})
 
     useEffect(() => {
         const getLocalValue = localStorage.getItem(KEY_VALUES)
@@ -66,4 +66,3 @@ export const Counter = () => {
         </Wrapper>
     );
 };
-
