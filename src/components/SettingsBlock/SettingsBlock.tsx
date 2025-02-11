@@ -14,7 +14,7 @@ type SettingsBlockPropsType = {
     isError: boolean
 }
 
-export const SettingsBlock = (props: SettingsBlockPropsType) => {
+export const SettingsBlock = (props: SettingsBlockPropsType ) => {
 
     // const [status, setStatus] = useState<'error' | 'message' | 'ready'>('message')
     // перейти на state status
