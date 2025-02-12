@@ -2,21 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {CounterBlock} from '../CounterBlock/CounterBlock';
 import {SettingsBlock} from '../SettingsBlock/SettingsBlock';
 import {Wrapper} from '../../../styles/stylesCounter';
+import {FieldType, StatusType, ValuesType} from '../../../types/types';
 
-
-export type ValuesType = {
-    start: number
-    max: number
-}
-export type FieldType = keyof ValuesType;
-export type StatusType = 'error' | 'message' | 'value';
-
-export const KEY_SETTINGS_VALUES = 'values';
+export const KEY_SETTINGS_VALUES = 'valuesCounter01';
 const INITIAL_VALUES: ValuesType = {max: 0, start: 0};
 
 export const Counter = () => {
     const [values, setValues] = React.useState<ValuesType>(INITIAL_VALUES);
-    const [status, setStatus] = useState<StatusType>('message');
+    const [status, setStatus] = useState<StatusType>('notConfigured');
 
     console.log(values, {status});
 

@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
-import {StatusType, ValuesType} from '../Сounter/Counter';
 
 import {Button} from '../../../styles/Button';
 import {Box, BoxControlUnit, BoxScreen} from '../../../styles/stylesCounter';
 import {TitleScreen, ValueScreen} from '../../../styles/stylesBlockCounter';
+import {StatusType, ValuesType} from '../../../types/types';
 
 type CounterBlockPropsType = {
     values: ValuesType
@@ -14,12 +14,12 @@ export const CounterBlock = (props: CounterBlockPropsType) => {
 
     const [value, setValue] = React.useState<number>(props.values.start);
 
-    const isIncDisabled = value === props.values.max || props.status !== 'value';
-    const isResetDisabled = value === props.values.start || props.status !== 'value';
+    const isIncDisabled = value === props.values.max || props.status !== 'ready';
+    const isResetDisabled = value === props.values.start || props.status !== 'ready';
 
     const isShowError = props.status === 'error';
-    const isShowMessage = props.status === 'message';
-    const isShowValue = props.status === 'value';
+    const isShowMessage = props.status === 'notConfigured';
+    const isShowValue = props.status === 'ready';
 
     const onClickAddValue = () => {
         if (value < props.values.max) {

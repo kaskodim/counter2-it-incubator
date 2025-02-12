@@ -1,14 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Settings} from '../Settigs/Settigs';
+import {FieldType, StatusType, ValuesType} from '../../../types/types';
 
-
-export type ValuesType = {
-    max: number
-    start: number
-}
-export type FieldType = 'max' | 'start'
-export type StatusType = 'error' | 'ready' | 'notConfigured';
 const INITIAL_VALUES_STATE: ValuesType = {max: 0, start: 0,}
+export const KEY_SETTINGS_VALUES = 'valuesCounter02'
 
 
 export const Counter2 = () => {
@@ -18,9 +13,17 @@ export const Counter2 = () => {
 
     console.log(values, {status})
 
+useEffect(()=>{
+   const getLocalValues = localStorage.getItem(KEY_SETTINGS_VALUES)
+   if(getLocalValues){
+       const parseLocalValue = JSON.parse(getLocalValues)
+       setValues(parseLocalValue)
+   }
+},[])
 
-    const onChangeSetValues = ( field: FieldType, number: number ) => {
-        setValues((prev)=> ({...prev, [field]: number}))
+
+    const onChangeSetValues = (field: FieldType, number: number) => {
+        setValues((prev) => ({...prev, [field]: number}))
     }
 
 

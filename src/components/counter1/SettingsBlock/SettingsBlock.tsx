@@ -1,9 +1,10 @@
 import React, {ChangeEvent} from 'react';
-import {ValuesType, KEY_SETTINGS_VALUES, FieldType, StatusType} from '../Сounter/Counter';
+import {KEY_SETTINGS_VALUES} from '../Сounter/Counter';
 import {Button} from '../../../styles/Button';
 import {Box, BoxControlUnit, BoxScreen} from '../../../styles/stylesCounter';
 import {Input, WrapperValues} from '../../../styles/stylesBlockSettings';
 import {getIsError} from '../../../utils/getIsError';
+import {FieldType, StatusType, ValuesType} from '../../../types/types';
 
 type SettingsBlockPropsType = {
     values: ValuesType
@@ -18,32 +19,32 @@ export const SettingsBlock = (props: SettingsBlockPropsType) => {
     const isDefaultResetBtnDisable = isValuesZero && !localStorage.getItem(KEY_SETTINGS_VALUES);
 
     const [isDisabledResetSettings, setIsDisabledResetSettings] = React.useState<boolean>(isDefaultResetBtnDisable);
-    const disabledSet = props.status !== 'message' || isValuesZero;
+    const disabledSet = props.status !== 'notConfigured' || isValuesZero;
 
     const onChangeMaxValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
         props.onChangeValues('max', +e.currentTarget.value);
         setIsDisabledResetSettings(false);
         const isError = getIsError(props.values.start, +e.currentTarget.value);
-        props.setStatus(isError ? 'error' : 'message')
+        props.setStatus(isError ? 'error' : 'notConfigured')
     };
 
     const onChangeStartValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
         props.onChangeValues('start', +e.currentTarget.value);
         setIsDisabledResetSettings(false);
         const isError = getIsError(+e.currentTarget.value, props.values.max);
-        props.setStatus(isError ? 'error' : 'message')
+        props.setStatus(isError ? 'error' : 'notConfigured')
     };
 
     const setSettingsHandler = () => {
         localStorage.setItem(KEY_SETTINGS_VALUES, JSON.stringify(props.values));
-        props.setStatus('value');
+        props.setStatus('ready');
     }
 
     const resetSettingsHandler = () => {
         props.onChangeValues('start', 0);
         props.onChangeValues('max', 0);
         setIsDisabledResetSettings(true);
-        props.setStatus('message');
+        props.setStatus('notConfigured');
         localStorage.removeItem(KEY_SETTINGS_VALUES);
     }
 
