@@ -4,7 +4,6 @@ import {Button} from '../../styles/Button';
 import {Box, BoxControlUnit, BoxScreen} from '../Сounter/styles';
 import {Input, WrapperValues} from './styles';
 
-
 type SettingsBlockPropsType = {
     values: ValuesType
     onChangeValues: (field: FieldType, value: number) => void
@@ -43,18 +42,7 @@ export const SettingsBlock = (props: SettingsBlockPropsType) => {
             e.currentTarget.value = '';
         }
     };
-
-    // const onWheelHandler = (e: WheelEvent<HTMLInputElement>) => {
-    //     console.log(e)
-    //     e.preventDefault()
-    //     if (e.deltaY < 0) {
-    //
-    //         console.log('Прокрутка вверх:');
-    //     } else if (e.deltaY > 0) {
-    //         console.log('Прокрутка вниз:');
-    //     }
-    // }
-
+    
     const setSettingsHandler = () => {
         localStorage.setItem(KEY_SETTINGS_VALUES, JSON.stringify(props.values));
         props.setStatus('value')
@@ -92,7 +80,6 @@ export const SettingsBlock = (props: SettingsBlockPropsType) => {
                         value={props.values.max}
                         onChange={onChangeMaxValueHandler}
                         onFocus={onFocusHandler}
-                        // onWheel={onWheelHandler}
                         status={props.status}
                     />
                 </WrapperValues>
@@ -104,7 +91,6 @@ export const SettingsBlock = (props: SettingsBlockPropsType) => {
                            value={props.values.start}
                            onChange={onChangeStartValueHandler}
                            onFocus={onFocusHandler}
-                           // onWheel={onWheelHandler}
                            status={props.status}
                     />
                 </WrapperValues>
