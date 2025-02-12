@@ -8,14 +8,13 @@ import {TitleScreen, ValueScreen} from './styles';
 type CounterBlockPropsType = {
     values: ValuesType
     status: StatusType
-}
+};
 
 export const CounterBlock = (props: CounterBlockPropsType) => {
 
     const [value, setValue] = React.useState<number>(props.values.start);
 
     const isIncDisabled = value === props.values.max || props.status !== 'value';
-    // оставить проверку на статус, без нее бага при быстром изменении значения
     const isResetDisabled = value === props.values.start || props.status !== 'value';
 
     const isShowError = props.status === 'error';

@@ -9,16 +9,16 @@ export type ValuesType = {
     max: number
 }
 export type FieldType = keyof ValuesType;
-export type StatusType = 'error' | 'message' | 'value'
+export type StatusType = 'error' | 'message' | 'value';
 
-export const KEY_SETTINGS_VALUES = 'values'
-const INITIAL_VALUES: ValuesType = {max: 0, start: 0}
+export const KEY_SETTINGS_VALUES = 'values';
+const INITIAL_VALUES: ValuesType = {max: 0, start: 0};
 
 export const Counter = () => {
     const [values, setValues] = React.useState<ValuesType>(INITIAL_VALUES);
-    const [status, setStatus] = useState<StatusType>('message')
+    const [status, setStatus] = useState<StatusType>('message');
 
-    console.log(values, {status})
+    console.log(values, {status});
 
     useEffect(() => {
         const getLocalValues = localStorage.getItem(KEY_SETTINGS_VALUES)
