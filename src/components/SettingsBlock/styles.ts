@@ -14,4 +14,7 @@ export const Input = styled.input<{ status: StatusType }>`
     background-color: ${props => props.status === 'error' ? ERROR_COLOR_TRANSPARENT : ''};
     border: 4px solid ${props => props.status === 'error' ? ERROR_COLOR : PRIMARY_COLOR};
 
+}
+
+
 `

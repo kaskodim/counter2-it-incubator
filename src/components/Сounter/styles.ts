@@ -22,7 +22,7 @@ export const Box = styled.div`
 `
 
 export const BoxScreen = styled.span`
-
+    min-height: 120px;
     padding: 20px;
     border: 2px solid ${PRIMARY_COLOR};
     border-radius: 10px;
