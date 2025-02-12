@@ -1,8 +1,8 @@
 import React, {ChangeEvent} from 'react';
 import {ValuesType, KEY_SETTINGS_VALUES, FieldType, StatusType} from '../Сounter/Counter';
 import {Button} from '../../../styles/Button';
-import {Box, BoxControlUnit, BoxScreen} from '../../../styles/styles';
-import {Input, WrapperValues} from './styles';
+import {Box, BoxControlUnit, BoxScreen} from '../../../styles/stylesCounter';
+import {Input, WrapperValues} from '../../../styles/stylesBlockSettings';
 import {getIsError} from '../../../utils/getIsError';
 
 type SettingsBlockPropsType = {

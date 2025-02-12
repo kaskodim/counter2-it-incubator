@@ -2,8 +2,8 @@ import React, {useEffect} from 'react';
 import {StatusType, ValuesType} from '../Сounter/Counter';
 
 import {Button} from '../../../styles/Button';
-import {Box, BoxControlUnit, BoxScreen} from '../../../styles/styles';
-import {TitleScreen, ValueScreen} from './styles';
+import {Box, BoxControlUnit, BoxScreen} from '../../../styles/stylesCounter';
+import {TitleScreen, ValueScreen} from '../../../styles/stylesBlockCounter';
 
 type CounterBlockPropsType = {
     values: ValuesType
