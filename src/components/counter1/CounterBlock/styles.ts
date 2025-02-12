@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {ERROR_COLOR} from '../../constansts';
+import {ERROR_COLOR} from '../../../constansts';
 
 export const TitleScreen = styled.span<{ isError?: boolean }>`
     color: ${props => props.isError ? ERROR_COLOR : ''};

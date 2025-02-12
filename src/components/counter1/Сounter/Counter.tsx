@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {CounterBlock} from '../CounterBlock/CounterBlock';
 import {SettingsBlock} from '../SettingsBlock/SettingsBlock';
-import {Wrapper} from './styles';
+import {Wrapper} from '../../../styles/styles';
 
 
 export type ValuesType = {

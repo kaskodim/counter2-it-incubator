@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {ERROR_COLOR, ERROR_COLOR_TRANSPARENT, PRIMARY_COLOR} from '../../constansts';
+import {ERROR_COLOR, ERROR_COLOR_TRANSPARENT, PRIMARY_COLOR} from '../../../constansts';
 import {StatusType} from '../Сounter/Counter';
 
 export const WrapperValues = styled.div`

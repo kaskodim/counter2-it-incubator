@@ -1,5 +1,6 @@
 import React from 'react';
-import {Counter} from './components/Сounter/Counter';
+import {Counter} from './components/counter1/Сounter/Counter';
+
 
 function App() {
 

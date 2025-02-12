@@ -1,8 +1,9 @@
-import React, {ChangeEvent, useEffect} from 'react';
+import React, {ChangeEvent} from 'react';
 import {ValuesType, KEY_SETTINGS_VALUES, FieldType, StatusType} from '../Сounter/Counter';
-import {Button} from '../../styles/Button';
-import {Box, BoxControlUnit, BoxScreen} from '../Сounter/styles';
+import {Button} from '../../../styles/Button';
+import {Box, BoxControlUnit, BoxScreen} from '../../../styles/styles';
 import {Input, WrapperValues} from './styles';
+import {getIsError} from '../../../utils/getIsError';
 
 type SettingsBlockPropsType = {
     values: ValuesType
@@ -13,31 +14,24 @@ type SettingsBlockPropsType = {
 
 export const SettingsBlock = (props: SettingsBlockPropsType) => {
 
-    const [isDisabledResetSettings, setIsDisabledResetSettings] = React.useState<boolean>(false);
-
-    const isNegativeValues = props.values.start < 0 || props.values.max < 0;
-    const isStartHigherMaximum = props.values.start >= props.values.max &&
-        (props.values.start > 0 || props.values.max > 0);
-
-    const isError = isNegativeValues || isStartHigherMaximum;
     const isValuesZero = props.values.start === 0 && props.values.max === 0;
-    const disabledSet = props.status !== 'message' || isValuesZero;
+    const isDefaultResetBtnDisable = isValuesZero && !localStorage.getItem(KEY_SETTINGS_VALUES);
 
+    const [isDisabledResetSettings, setIsDisabledResetSettings] = React.useState<boolean>(isDefaultResetBtnDisable);
+    const disabledSet = props.status !== 'message' || isValuesZero;
 
     const onChangeMaxValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
         props.onChangeValues('max', +e.currentTarget.value);
         setIsDisabledResetSettings(false);
-        if(props.status !== 'error') {
-            props.setStatus('message')
-        }
+        const isError = getIsError(props.values.start, +e.currentTarget.value);
+        props.setStatus(isError ? 'error' : 'message')
     };
 
     const onChangeStartValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
         props.onChangeValues('start', +e.currentTarget.value);
         setIsDisabledResetSettings(false);
-        if(props.status !== 'error') {
-            props.setStatus('message')
-        }
+        const isError = getIsError(+e.currentTarget.value, props.values.max);
+        props.setStatus(isError ? 'error' : 'message')
     };
 
     const setSettingsHandler = () => {
@@ -52,22 +46,6 @@ export const SettingsBlock = (props: SettingsBlockPropsType) => {
         props.setStatus('message');
         localStorage.removeItem(KEY_SETTINGS_VALUES);
     }
-
-    // переписать useEffect
-    useEffect(() => {
-        if (isValuesZero && !localStorage.getItem(KEY_SETTINGS_VALUES)) {
-            setIsDisabledResetSettings(true);
-        }
-        if(props.status === 'value') {
-            return;
-        }
-        if (isError) {
-            props.setStatus('error');
-            return;
-        }
-        props.setStatus('message');
-
-    }, [isError, isValuesZero, props, props.values, props.status]);
 
     return (
         <Box>
