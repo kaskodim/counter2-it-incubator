@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {CounterBlock} from '../CounterBlock/CounterBlock';
-import {SettingsBlock} from '../SettingsBlock/SettingsBlock';
-import {Wrapper} from '../../../styles/stylesCounter';
-import {FieldType, StatusType, ValuesType} from '../../../types/types';
+import {CounterBlock} from './Count/CounterBlock';
+import {SettingsBlock} from './Setting/SettingsBlock';
+import {Wrapper} from '../../styles/Counter';
+import {FieldType, StatusType, ValuesType} from '../../types/types';
 
 export const KEY_SETTINGS_VALUES = 'counter01';
 const INITIAL_VALUES: ValuesType = {max: 0, start: 0};
 
-export const Counter = () => {
+export const DoubleCounter = () => {
     const [values, setValues] = React.useState<ValuesType>(INITIAL_VALUES);
-    const [status, setStatus] = useState<StatusType>('notConfigured');
+    const [status, setStatus] = useState<StatusType>('setup');
 
     console.log(values, {status});
 

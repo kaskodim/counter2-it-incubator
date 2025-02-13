@@ -1,9 +1,9 @@
 import React, {ChangeEvent} from 'react';
-import {Box, BoxControlUnit, BoxScreen} from '../../../styles/stylesCounter';
-import {Input, MemoryScreen, WrapperValues} from '../../../styles/stylesBlockSettings';
+import {Box, BoxControlUnit, BoxScreen, MemoryScreen} from '../../../styles/Counter';
+import {Input, WrapperInputs, WrapperLabel} from '../../../styles/Settings';
 import {getIsError} from '../../../utils/getIsError';
 import {FieldType, StatusType, ValuesType} from '../../../types/types';
-import {INITIAL_LOCAL_STATE, KEY_SETTINGS_VALUES} from '../Counter2/Counter2';
+import {INITIAL_LOCAL_STATE, KEY_SETTINGS_VALUES} from '../SingleCounter';
 import {getLocalStorage} from '../../../utils/getLocalStorage';
 import {Button} from '../../../styles/Button';
 import {getIsValuesZero} from '../../../utils/getIsValuesZero';
@@ -15,6 +15,7 @@ type SettingsPropsType = {
     status: StatusType
     localValues: ValuesType
     setLocalValues: (value: ValuesType) => void
+    changeShowCounter: (flag: boolean) => void
 }
 
 export const Settings = (props: SettingsPropsType) => {
@@ -29,7 +30,7 @@ export const Settings = (props: SettingsPropsType) => {
         const isValueZero = getIsValuesZero(props.values.start, +e.currentTarget.value)
         const error = getIsError(props.values.start, +e.currentTarget.value)
         if (isValueZero) {
-            props.setStatus('notConfigured')
+            props.setStatus('setup')
             return
         }
         props.setStatus(error ? 'error' : 'ready')
@@ -40,7 +41,7 @@ export const Settings = (props: SettingsPropsType) => {
         const isValueZero = getIsValuesZero(+e.currentTarget.value, props.values.max);
         const error = getIsError(+e.currentTarget.value, props.values.max)
         if (isValueZero) {
-            props.setStatus('notConfigured')
+            props.setStatus('setup')
             return
         }
         props.setStatus(error ? 'error' : 'ready')
@@ -49,53 +50,60 @@ export const Settings = (props: SettingsPropsType) => {
     const onClickResetHandler = () => {
         props.onChangeSetValues('max', 0)
         props.onChangeSetValues('start', 0)
+        props.setStatus('setup')
+    }
+
+    const onClickMemoryHandler = () => {
         localStorage.removeItem(KEY_SETTINGS_VALUES)
-        props.setStatus('notConfigured')
         props.setLocalValues(INITIAL_LOCAL_STATE)
     }
 
     const onClickSetHandler = () => {
         localStorage.setItem(KEY_SETTINGS_VALUES, JSON.stringify(props.values))
-
         const LocalValue = getLocalStorage(KEY_SETTINGS_VALUES)
         props.setLocalValues(LocalValue)
-
-        //     show counter callback
+        props.changeShowCounter(true)
     }
+
 
     return (
         <Box>
             <BoxScreen>
-                <MemoryScreen>memory max: {props.localValues.max} start: {props.localValues.start}</MemoryScreen>
+                <MemoryScreen>
+                    memory
+                    max: {props.localValues.max} start: {props.localValues.start}
+                </MemoryScreen>
 
-                <WrapperValues>
-                    <label htmlFor={'idMax'}>   max value:
+                <WrapperInputs>
+                    <WrapperLabel htmlFor={'idMax'}>
+                        max value:
                         <Input id="idMax"
                                type={'number'}
                                onChange={onChangeMaxHandler}
-                               value={(props.values.max).toString()}
+                               value={String(props.values.max)}
                                status={props.status}
                         />
-                    </label>
-                </WrapperValues>
-
-                <WrapperValues>
-                    <label htmlFor={'idStart'}> start value:
+                    </WrapperLabel>
+                    <WrapperLabel htmlFor={'idStart'}> start value:
                         <Input id="idStart"
                                type={'number'}
                                onChange={onChangeStartHandler}
-                               value={(props.values.start).toString()}
+                               value={String(props.values.start)}
                                status={props.status}
                         />
-                    </label>
-                </WrapperValues>
+                    </WrapperLabel>
+                </WrapperInputs>
             </BoxScreen>
-
 
             <BoxControlUnit>
                 <Button onClick={onClickResetHandler}
                         disabled={isDisabledReset}>
                     reset
+                </Button>
+
+                <Button onClick={onClickMemoryHandler}
+                        disabled={notLocalStorage}>
+                    clear data
                 </Button>
 
                 <Button onClick={onClickSetHandler}

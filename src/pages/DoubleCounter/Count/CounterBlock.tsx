@@ -1,8 +1,7 @@
 import React, {useEffect} from 'react';
-
 import {Button} from '../../../styles/Button';
-import {Box, BoxControlUnit, BoxScreen} from '../../../styles/stylesCounter';
-import {TitleScreen, ValueScreen} from '../../../styles/stylesBlockCounter';
+import {Box, BoxControlUnit, BoxScreen} from '../../../styles/Counter';
+import {TitleScreen, ValueScreen} from '../../../styles/Count';
 import {StatusType, ValuesType} from '../../../types/types';
 
 type CounterBlockPropsType = {
@@ -18,7 +17,7 @@ export const CounterBlock = (props: CounterBlockPropsType) => {
     const isResetDisabled = value === props.values.start || props.status !== 'ready';
 
     const isShowError = props.status === 'error';
-    const isShowMessage = props.status === 'notConfigured';
+    const isShowMessage = props.status === 'setup';
     const isShowValue = props.status === 'ready';
 
     const onClickAddValue = () => {
@@ -29,15 +28,17 @@ export const CounterBlock = (props: CounterBlockPropsType) => {
     const onClickResetValue = () => {
         setValue(props.values.start);
     }
+
+
     useEffect(() => {
         setValue(props.values.start)
-    }, [props.values.start]);
+    }, [props.values]);
 
     return (
         <Box>
             <BoxScreen>
                 {isShowError && <TitleScreen isError>Incorrect value!</TitleScreen>}
-                {isShowMessage && <TitleScreen >Enter values and press 'set'</TitleScreen>}
+                {isShowMessage && <TitleScreen>Enter values and press 'set'</TitleScreen>}
                 {isShowValue && <ValueScreen isMax={isIncDisabled}>{value}</ValueScreen>}
             </BoxScreen>
 

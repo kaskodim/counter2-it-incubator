@@ -3,4 +3,4 @@ export type ValuesType = {
     max: number
 }
 export type FieldType = keyof ValuesType;
-export type StatusType = 'error' | 'notConfigured' | 'ready';
+export type StatusType = 'error' | 'setup' | 'ready';
