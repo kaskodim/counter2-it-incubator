@@ -13,7 +13,7 @@ export const MemoryScreen = styled.span`
     width: 100%;
     font-size: 16px;
     display: flex;
-    justify-content: start;
+    justify-content: end;
 `
 
 

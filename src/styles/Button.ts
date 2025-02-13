@@ -3,9 +3,9 @@ import {PRIMARY_COLOR, SECONDARY_COLOR} from '../constansts';
 
 export const Button = styled.button`
     background-color: ${PRIMARY_COLOR};
-    font-size: 30px;
+    font-size: 20px;
     font-weight: bold;
-    border-radius: 8px;
+    border-radius: 6px;
     color: ${SECONDARY_COLOR};
 
     

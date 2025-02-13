@@ -3,30 +3,31 @@ import {Box, BoxControlUnit, BoxScreen} from '../../../styles/stylesCounter';
 import {Input, MemoryScreen, WrapperValues} from '../../../styles/stylesBlockSettings';
 import {getIsError} from '../../../utils/getIsError';
 import {FieldType, StatusType, ValuesType} from '../../../types/types';
-import {KEY_SETTINGS_VALUES} from '../Counter2/Counter2';
+import {INITIAL_LOCAL_STATE, KEY_SETTINGS_VALUES} from '../Counter2/Counter2';
+import {getLocalStorage} from '../../../utils/getLocalStorage';
+import {Button} from '../../../styles/Button';
+import {getIsValuesZero} from '../../../utils/getIsValuesZero';
 
 type SettingsPropsType = {
     onChangeSetValues: (field: FieldType, number: number) => void
     values: ValuesType
     setStatus: (status: StatusType) => void
     status: StatusType
+    localValues: ValuesType
+    setLocalValues: (value: ValuesType) => void
 }
 
 export const Settings = (props: SettingsPropsType) => {
 
-    const isDisabledReset = props.values.start === 0 && props.values.max === 0  // and not LocalStorage
-    const isDisabledSet = props.status !== 'ready'
-
-    function getIsValuesZero(start: number, max: number) {
-        return start === 0 && max === 0
-    }
+    const notLocalStorage = !localStorage.getItem(KEY_SETTINGS_VALUES)
+    const isValuesAreZero = props.values.start === 0 && props.values.max === 0
+    const isDisabledReset = isValuesAreZero && notLocalStorage
+    const isDisabledSet = props.status !== 'ready';
 
     const onChangeMaxHandler = (e: ChangeEvent<HTMLInputElement>) => {
         props.onChangeSetValues('max', +e.currentTarget.value)
-
         const isValueZero = getIsValuesZero(props.values.start, +e.currentTarget.value)
         const error = getIsError(props.values.start, +e.currentTarget.value)
-
         if (isValueZero) {
             props.setStatus('notConfigured')
             return
@@ -36,10 +37,8 @@ export const Settings = (props: SettingsPropsType) => {
 
     const onChangeStartHandler = (e: ChangeEvent<HTMLInputElement>) => {
         props.onChangeSetValues('start', +e.currentTarget.value)
-
         const isValueZero = getIsValuesZero(+e.currentTarget.value, props.values.max);
         const error = getIsError(+e.currentTarget.value, props.values.max)
-
         if (isValueZero) {
             props.setStatus('notConfigured')
             return
@@ -52,20 +51,25 @@ export const Settings = (props: SettingsPropsType) => {
         props.onChangeSetValues('start', 0)
         localStorage.removeItem(KEY_SETTINGS_VALUES)
         props.setStatus('notConfigured')
+        props.setLocalValues(INITIAL_LOCAL_STATE)
     }
 
     const onClickSetHandler = () => {
-        localStorage.setItem(KEY_SETTINGS_VALUES, JSON.stringify(props.values)  )
-        //     show counter
+        localStorage.setItem(KEY_SETTINGS_VALUES, JSON.stringify(props.values))
+
+        const LocalValue = getLocalStorage(KEY_SETTINGS_VALUES)
+        props.setLocalValues(LocalValue)
+
+        //     show counter callback
     }
 
     return (
         <Box>
             <BoxScreen>
-                <MemoryScreen>memory: local value</MemoryScreen>
+                <MemoryScreen>memory max: {props.localValues.max} start: {props.localValues.start}</MemoryScreen>
 
                 <WrapperValues>
-                    <label htmlFor={'idMax'}> max value
+                    <label htmlFor={'idMax'}>   max value:
                         <Input id="idMax"
                                type={'number'}
                                onChange={onChangeMaxHandler}
@@ -76,7 +80,7 @@ export const Settings = (props: SettingsPropsType) => {
                 </WrapperValues>
 
                 <WrapperValues>
-                    <label htmlFor={'idStart'}> start value
+                    <label htmlFor={'idStart'}> start value:
                         <Input id="idStart"
                                type={'number'}
                                onChange={onChangeStartHandler}
@@ -89,17 +93,15 @@ export const Settings = (props: SettingsPropsType) => {
 
 
             <BoxControlUnit>
-
-                <button onClick={onClickResetHandler}
+                <Button onClick={onClickResetHandler}
                         disabled={isDisabledReset}>
                     reset
-                </button>
+                </Button>
 
-                <button onClick={onClickSetHandler}
+                <Button onClick={onClickSetHandler}
                         disabled={isDisabledSet}>
                     set
-                </button>
-
+                </Button>
             </BoxControlUnit>
         </Box>
     );

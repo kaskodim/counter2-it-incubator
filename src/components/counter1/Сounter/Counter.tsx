@@ -4,7 +4,7 @@ import {SettingsBlock} from '../SettingsBlock/SettingsBlock';
 import {Wrapper} from '../../../styles/stylesCounter';
 import {FieldType, StatusType, ValuesType} from '../../../types/types';
 
-export const KEY_SETTINGS_VALUES = 'valuesCounter01';
+export const KEY_SETTINGS_VALUES = 'counter01';
 const INITIAL_VALUES: ValuesType = {max: 0, start: 0};
 
 export const Counter = () => {
