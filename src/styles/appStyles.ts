@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import {PRIMARY_COLOR} from '../constansts';
 
 export const AppStyles = styled.div`
     text-align: center;
@@ -7,9 +6,9 @@ export const AppStyles = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: column;
-    gap: 30px;
+    gap: 20px;
+    user-select: none;
 `
 
-export const ViewModeTitle = styled.span`
-    color: ${PRIMARY_COLOR};
-`
+
+

@@ -1,40 +1,38 @@
 import React, {useEffect, useState} from 'react';
-import {CounterBlock} from './Count/CounterBlock';
-import {SettingsBlock} from './Setting/SettingsBlock';
-import {Wrapper} from '../../styles/Counter';
-import {FieldType, StatusType, ValuesType} from '../../types/types';
+import {Count} from './Count/Count';
+import {Settings} from './Setting/Settings';
+import {KeysOfValuesType, StatusType, ValuesType} from '../../types/types';
+import {Wrapper} from './styles';
+import {getLocalStorage} from '../../utils/getLocalStorage';
 
-export const KEY_SETTINGS_VALUES = 'counter01';
+export const KEY_SETTINGS_VALUES = 'double';
 const INITIAL_VALUES: ValuesType = {max: 0, start: 0};
 
 export const DoubleCounter = () => {
     const [values, setValues] = React.useState<ValuesType>(INITIAL_VALUES);
     const [status, setStatus] = useState<StatusType>('setup');
 
-    console.log(values, {status});
-
     useEffect(() => {
-        const getLocalValues = localStorage.getItem(KEY_SETTINGS_VALUES)
+        const getLocalValues = getLocalStorage(KEY_SETTINGS_VALUES)
         if (getLocalValues) {
-            const parseLocalValue = JSON.parse(getLocalValues)
-            setValues(parseLocalValue)
+            setValues(getLocalValues)
         }
     }, []);
 
-    const onChangeValues = (field: FieldType, value: number) => {
+    const onChangeValues = (field: KeysOfValuesType, value: number) => {
         setValues(prev => ({...prev, [field]: value}));
     }
 
     return (
         <Wrapper>
-            <SettingsBlock values={values}
-                           onChangeValues={onChangeValues}
-                           status={status}
-                           setStatus={setStatus}
+            <Settings values={values}
+                      onChangeValues={onChangeValues}
+                      status={status}
+                      setStatus={setStatus}
             />
 
-            <CounterBlock values={values}
-                          status={status}
+            <Count values={values}
+                   status={status}
             />
         </Wrapper>
     );

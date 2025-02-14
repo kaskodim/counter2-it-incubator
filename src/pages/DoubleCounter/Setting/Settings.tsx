@@ -1,24 +1,25 @@
 import React, {ChangeEvent} from 'react';
 import {KEY_SETTINGS_VALUES} from '../DoubleCounter';
-import {Button} from '../../../styles/Button';
-import {Box, BoxControlUnit, BoxScreen} from '../../../styles/Counter';
-import {Input, WrapperInputs, WrapperLabel} from '../../../styles/Settings';
+import {Button} from '../../../styles/button';
+import {Input, WrapperInputs, WrapperLabel} from '../../../styles/inputStyles';
 import {getIsError} from '../../../utils/getIsError';
-import {FieldType, StatusType, ValuesType} from '../../../types/types';
+import {KeysOfValuesType, StatusType, ValuesType} from '../../../types/types';
+import {Box, BoxControlUnit, BoxScreen} from '../styles';
+import {setLocalStorage} from '../../../utils/setLocalStorige';
 
 type SettingsBlockPropsType = {
     values: ValuesType
-    onChangeValues: (field: FieldType, value: number) => void
+    onChangeValues: (field: KeysOfValuesType, value: number) => void
     status: StatusType
     setStatus: (status: StatusType) => void
 };
 
-export const SettingsBlock = (props: SettingsBlockPropsType) => {
+export const Settings = (props: SettingsBlockPropsType) => {
 
     const isValuesZero = props.values.start === 0 && props.values.max === 0;
-    const isDefaultResetBtnDisable = isValuesZero && !localStorage.getItem(KEY_SETTINGS_VALUES);
+    const isDefaultResetBtnDisabled = isValuesZero && !localStorage.getItem(KEY_SETTINGS_VALUES);
 
-    const [isDisabledResetSettings, setIsDisabledResetSettings] = React.useState<boolean>(isDefaultResetBtnDisable);
+    const [isDisabledResetSettings, setIsDisabledResetSettings] = React.useState<boolean>(isDefaultResetBtnDisabled);
     const disabledSet = props.status !== 'setup' || isValuesZero;
 
     const onChangeMaxValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -35,9 +36,8 @@ export const SettingsBlock = (props: SettingsBlockPropsType) => {
     };
 
     const setSettingsHandler = () => {
-        localStorage.setItem(KEY_SETTINGS_VALUES, JSON.stringify(props.values));
+        setLocalStorage(KEY_SETTINGS_VALUES, props.values)
         props.setStatus('ready');
-        
     }
 
     const resetSettingsHandler = () => {
@@ -76,7 +76,7 @@ export const SettingsBlock = (props: SettingsBlockPropsType) => {
             <BoxControlUnit>
                 <Button disabled={isDisabledResetSettings}
                         onClick={resetSettingsHandler}>
-                    reset settings
+                    reset
                 </Button>
 
                 <Button disabled={disabledSet}

@@ -1,4 +1,3 @@
-
 export const ERROR_COLOR = '#ff0000'
 export const ERROR_COLOR_TRANSPARENT = '#ffe0e0'
 

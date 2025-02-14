@@ -1,68 +1,65 @@
 import React from 'react';
-import {Box, BoxControlUnit, BoxScreen, MemoryScreen} from '../../../styles/Counter';
-import {Button} from '../../../styles/Button';
+import {Button} from '../../../styles/button';
 import {ValuesType} from '../../../types/types';
-import {ValueScreen} from '../../../styles/Count';
+import {ValueScreen} from './styles';
+import Memory from '../../../components/Memory/Memory';
+import {Box, BoxControlUnit, BoxScreen} from '../styles';
+
 
 type CountType = {
     values: ValuesType
     changeShowCounter: (flag: boolean) => void
     localValues: ValuesType
-}
+};
 
 export const Count = (props: CountType) => {
 
     const [value, setValue] = React.useState<number>(props.values.start);
 
     const isDisabledInc = value === props.values.max;
+    const isResetDisabled = value === props.values.start;
 
     const onClickIncHandler = () => {
         if (value < props.values.max) {
             setValue(value + 1);
         }
-    }
+    };
 
     const onClickResetHandler = () => {
-        setValue(props.values.start)
-    }
+        setValue(props.values.start);
+    };
 
     const onClickSetHandler = () => {
-        props.changeShowCounter(false)
-    }
+        props.changeShowCounter(false);
+    };
 
 
     return (
         <Box>
             <BoxScreen>
+                <Memory max={props.values.max}
+                        start={props.values.start}/>
 
-                <MemoryScreen>
-                    memory
-                    max: {props.localValues.max} start: {props.localValues.start}
-                </MemoryScreen>
                 <ValueScreen isMax={isDisabledInc}>
                     {value}
                 </ValueScreen>
-
             </BoxScreen>
 
             <BoxControlUnit>
-
-
-                <Button onClick={onClickSetHandler}
-                >set
-                </Button>
-
-                <Button onClick={onClickResetHandler}
-                >reset
-                </Button>
-
                 <Button onClick={onClickIncHandler}
                         disabled={isDisabledInc}
                 >inc
                 </Button>
 
-            </BoxControlUnit>
+                <Button onClick={onClickResetHandler}
+                        disabled={isResetDisabled}
+                >reset
+                </Button>
 
+                <Button onClick={onClickSetHandler}
+                >set
+                </Button>
+            </BoxControlUnit>
         </Box>
     );
 };

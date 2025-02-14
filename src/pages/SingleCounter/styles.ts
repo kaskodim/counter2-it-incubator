@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {PRIMARY_COLOR} from '../constansts';
+import {PRIMARY_COLOR} from '../../constansts';
 
 export const Wrapper = styled.div`
     display: flex;
@@ -9,8 +9,7 @@ export const Wrapper = styled.div`
 `
 
 export const Box = styled.div`
-   width: 340px;
- 
+    width: 340px;
     display: flex;
     flex-direction: column;
     border: 2px solid ${PRIMARY_COLOR};
@@ -29,13 +28,7 @@ export const BoxScreen = styled.span`
     border: 2px solid ${PRIMARY_COLOR};
     border-radius: 10px;
     height: 160px;
-`
-
-export const MemoryScreen = styled.span`
-    font-size: 14px;
-    display: flex;
-    justify-content: end;
-    padding: 10px;
+    position: relative;
 `
 
 export const BoxControlUnit = styled.div`
@@ -44,7 +37,6 @@ export const BoxControlUnit = styled.div`
     border-radius: 10px;
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    gap: 10px;
+    justify-content: center;
+    gap: 15px;
 `
-

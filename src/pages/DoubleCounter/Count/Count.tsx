@@ -1,15 +1,15 @@
 import React, {useEffect} from 'react';
-import {Button} from '../../../styles/Button';
-import {Box, BoxControlUnit, BoxScreen} from '../../../styles/Counter';
-import {TitleScreen, ValueScreen} from '../../../styles/Count';
+import {Button} from '../../../styles/button';
 import {StatusType, ValuesType} from '../../../types/types';
+import {Box, BoxControlUnit, BoxScreen} from '../styles';
+import {TitleScreen, ValueScreen} from './styles';
 
 type CounterBlockPropsType = {
     values: ValuesType
     status: StatusType
 };
 
-export const CounterBlock = (props: CounterBlockPropsType) => {
+export const Count = (props: CounterBlockPropsType) => {
 
     const [value, setValue] = React.useState<number>(props.values.start);
 

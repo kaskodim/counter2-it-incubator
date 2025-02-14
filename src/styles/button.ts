@@ -7,13 +7,13 @@ export const Button = styled.button`
     font-weight: bold;
     border-radius: 6px;
     color: ${SECONDARY_COLOR};
+    width: 90px;
 
-    
-    &:active{
+    &:active {
         background-color: ${SECONDARY_COLOR};
         color: ${PRIMARY_COLOR};
     }
-    
+
     &:disabled {
         opacity: 0.3;
         background-color: ${PRIMARY_COLOR};
