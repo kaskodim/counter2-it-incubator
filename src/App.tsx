@@ -21,6 +21,7 @@ function App() {
 
     return (
         <AppStyles>
+
             {viewMode === 'single' && <SingleCounter/>}
             {viewMode === 'double' && <DoubleCounter/>}
 
