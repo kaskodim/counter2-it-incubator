@@ -1,9 +1,10 @@
-// store.ts
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { appReducer } from './reducer';
+import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import {ViewModeReducer} from './viewModeReducer';
+import {doubleCounterReducer} from '../features/model/doubleConterReducer';
 
 const rootReducer = combineReducers({
-    app: appReducer,
+    viewMode: ViewModeReducer,
+    doubleCounter: doubleCounterReducer
 });
 
 export const store = configureStore({
@@ -12,3 +13,4 @@ export const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+

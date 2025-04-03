@@ -1,27 +1,15 @@
-
 import {createAction, createReducer} from '@reduxjs/toolkit'
 import {ViewModeType} from '../types/types';
 
-
-
-
-
-export const changeViewModeAC =  createAction <{viewMode: ViewModeType}> ("CHANGE_VIEW_MODE");
-
+export const changeViewModeAC =  createAction <{viewMode: ViewModeType}> ('app/changeViewMode');
 
 const initialState = {
     viewMode: 'single' as ViewModeType,
 }
 
-export const appReducer = createReducer(initialState, builder => {
+export const ViewModeReducer = createReducer(initialState, builder => {
     builder
         .addCase(changeViewModeAC, (state, action) => {
             state.viewMode = action.payload.viewMode
         })
 })
-
-
-
-
-
-

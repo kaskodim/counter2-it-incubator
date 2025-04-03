@@ -4,34 +4,33 @@ import {AppStyles} from '../styles/appStyles';
 import {ViewSelector} from '../components/ViewSelector/ViewSelector';
 import {DoubleCounter} from '../pages/DoubleCounter/DoubleCounter';
 import {getLocalStorage} from '../utils/getLocalStorage';
-import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from './store';
-import {changeViewModeAC} from './reducer';
-import {ViewModeType} from '../types/types';
+import {useDispatch} from 'react-redux';
+import {changeViewModeAC} from './viewModeReducer';
+import {useViewModeSelector} from '../common/hooks/useViewModeSelector';
+import {selectViewMode} from '../features/model/viewModeSelector';
+import {useDoubleCounterSelector} from '../common/hooks/useDoubleCounterSelector';
+
 
 export const VIEW_MODE_LOCAL_STORAGE = 'viewMode'
 
 function App() {
 
-    const viewMode = useSelector((state: RootState) => state.app.viewMode);
+    const viewMode = useDoubleCounterSelector(selectViewMode);
     const dispatch = useDispatch();
 
     useEffect(() => {
         const getLocalViewMode = getLocalStorage(VIEW_MODE_LOCAL_STORAGE)
         if (getLocalViewMode) {
-            dispatch(changeViewModeAC({ viewMode: getLocalViewMode as ViewModeType }));
+            dispatch(changeViewModeAC({viewMode: getLocalViewMode}));
         }
     }, [])
 
     return (
         <AppStyles>
-
             <ViewSelector/>
 
             {viewMode === 'single' && <SingleCounter/>}
             {viewMode === 'double' && <DoubleCounter/>}
-
-
         </AppStyles>
     );
 }
