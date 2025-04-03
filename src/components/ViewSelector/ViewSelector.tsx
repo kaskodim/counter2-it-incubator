@@ -5,13 +5,13 @@ import {VIEW_MODE_LOCAL_STORAGE} from '../../app/App';
 import {setLocalStorage} from '../../utils/setLocalStorige';
 import {useDispatch} from 'react-redux';
 import {changeViewModeAC} from '../../app/viewModeReducer';
-import {useAppSelector} from '../../common/hooks/useViewModeSelector';
+import {useViewModeSelector} from '../../common/hooks/useViewModeSelector';
 import {selectViewMode} from '../../features/model/viewModeSelector';
 
 
 export const ViewSelector = () => {
 
-    const viewMode = useAppSelector(selectViewMode);
+    const viewMode = useViewModeSelector(selectViewMode);
     const dispatch = useDispatch();
 
     const onClickViewModeHandler = () => {

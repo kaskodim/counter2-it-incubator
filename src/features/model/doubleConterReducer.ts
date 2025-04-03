@@ -1,5 +1,5 @@
 import {createAction, createReducer} from '@reduxjs/toolkit'
-import {DoubleCounterType, KeysOfValuesType, StatusType, ValuesType} from '../../types/types';
+import {DoubleCounterType, ValuesType} from '../../types/types';
 
 
 export const getValuesLocalStorageAC = createAction<ValuesType>(' doubleCounter/getValuesLocalStorage');
