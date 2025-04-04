@@ -6,16 +6,14 @@ import {DoubleCounter} from '../pages/DoubleCounter/DoubleCounter';
 import {getLocalStorage} from '../utils/getLocalStorage';
 import {useDispatch} from 'react-redux';
 import {changeViewModeAC} from './viewModeReducer';
-import {useViewModeSelector} from '../common/hooks/useViewModeSelector';
 import {selectViewMode} from '../features/model/viewModeSelector';
-import {useDoubleCounterSelector} from '../common/hooks/useDoubleCounterSelector';
-
+import {useViewModeSelector} from '../common/hooks/useViewModeSelector';
 
 export const VIEW_MODE_LOCAL_STORAGE = 'viewMode'
 
 function App() {
 
-    const viewMode = useDoubleCounterSelector(selectViewMode);
+    const viewMode = useViewModeSelector(selectViewMode);
     const dispatch = useDispatch();
 
     useEffect(() => {

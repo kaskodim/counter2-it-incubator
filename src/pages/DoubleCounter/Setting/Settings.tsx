@@ -1,90 +1,86 @@
-import React, {ChangeEvent} from 'react';
-import {KEY_SETTINGS_VALUES} from '../DoubleCounter';
-import {Button} from '../../../styles/button';
-import {Input, WrapperInputs, WrapperLabel} from '../../../styles/inputStyles';
-import {getIsError} from '../../../utils/getIsError';
-import {KeysOfValuesType, StatusType, ValuesType} from '../../../types/types';
-import {Box, BoxControlUnit, BoxScreen} from '../styles';
-import {setLocalStorage} from '../../../utils/setLocalStorige';
+import React, { ChangeEvent } from "react"
+import { KEY_SETTINGS_VALUES } from "../DoubleCounter"
+import { Button } from "../../../styles/button"
+import { Input, WrapperInputs, WrapperLabel } from "../../../styles/inputStyles"
+import { Box, BoxControlUnit, BoxScreen } from "../styles"
+import { setLocalStorage } from "../../../utils/setLocalStorige"
+import { useDispatch, useSelector } from "react-redux"
+import { selectValuesDoubleCounter } from "../../../common/double/doubleCounterValuesSelector"
+import { selectStatusDoubleCounter } from "../../../common/double/doubleCounterStatusSelector"
+import { onChangeStatusAC, onChangeValuesAC, resetSettingsAC } from "../../../common/double/doubleReduser"
+import { selectPressResetDoubleCounter } from "../../../common/double/doubleCounterPressResset"
 
-type SettingsBlockPropsType = {
-    values: ValuesType
-    onChangeValues: (field: KeysOfValuesType, value: number) => void
-    status: StatusType
-    setStatus: (status: StatusType) => void
-};
 
-export const Settings = (props: SettingsBlockPropsType) => {
+export const Settings = () => {
+  const values = useSelector(selectValuesDoubleCounter)
+  const status = useSelector(selectStatusDoubleCounter)
+  const isDisabledResetSettings = useSelector(selectPressResetDoubleCounter)
 
-    const isValuesZero = props.values.start === 0 && props.values.max === 0;
-    const isDefaultResetBtnDisabled = isValuesZero && !localStorage.getItem(KEY_SETTINGS_VALUES);
+  const dispatch = useDispatch()
 
-    const [isDisabledResetSettings, setIsDisabledResetSettings] = React.useState<boolean>(isDefaultResetBtnDisabled);
-    const disabledSet = props.status !== 'setup' || isValuesZero;
 
-    const onChangeMaxValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        props.onChangeValues('max', +e.currentTarget.value);
-        setIsDisabledResetSettings(false);
-        const isError = getIsError(props.values.start, +e.currentTarget.value);
-        props.setStatus(isError ? 'error' : 'setup')
-    };
-    const onChangeStartValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        props.onChangeValues('start', +e.currentTarget.value);
-        setIsDisabledResetSettings(false);
-        const isError = getIsError(+e.currentTarget.value, props.values.max);
-        props.setStatus(isError ? 'error' : 'setup')
-    };
+  const isValuesZero = values.start === 0 && values.max === 0
+  const disabledSet = status !== "setup" || isValuesZero
 
-    const setSettingsHandler = () => {
-        setLocalStorage(KEY_SETTINGS_VALUES, props.values)
-        props.setStatus('ready');
-    }
+  const onChangeMaxValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(onChangeValuesAC({ field: "max", value: +e.currentTarget.value }))
+  }
 
-    const resetSettingsHandler = () => {
-        props.onChangeValues('start', 0);
-        props.onChangeValues('max', 0);
-        setIsDisabledResetSettings(true);
-        props.setStatus('setup');
-        localStorage.removeItem(KEY_SETTINGS_VALUES);
-    }
+  const onChangeStartValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(onChangeValuesAC({ field: "start", value: +e.currentTarget.value }))
+  }
 
-    return (
-        <Box>
-            <BoxScreen>
-                <WrapperInputs>
-                    <WrapperLabel htmlFor="idMax">
-                        max value:
-                        <Input
-                            id="idMax"
-                            type={'number'}
-                            onChange={onChangeMaxValueHandler}
-                            status={props.status}
-                            value={String(props.values.max)}/>
-                    </WrapperLabel>
+  const setSettingsHandler = () => {
+    setLocalStorage(KEY_SETTINGS_VALUES, values)
+    dispatch(onChangeStatusAC({ status: "ready" }))
+  }
 
-                    <WrapperLabel htmlFor={'idStart'}>
-                        start value:
-                        <Input id="idStart"
-                               type={'number'}
-                               onChange={onChangeStartValueHandler}
-                               status={props.status}
-                               value={String(props.values.start)}/>
-                    </WrapperLabel>
-                </WrapperInputs>
-            </BoxScreen>
+  const resetSettingsHandler = () => {
+    dispatch(resetSettingsAC({ values: { max: 0, start: 0 } }))
+    localStorage.removeItem(KEY_SETTINGS_VALUES)
+  }
 
-            <BoxControlUnit>
-                <Button disabled={isDisabledResetSettings}
-                        onClick={resetSettingsHandler}>
-                    reset
-                </Button>
+  return (
+    <Box>
+      <BoxScreen>
+        <WrapperInputs>
+          <WrapperLabel htmlFor="idMax">
+            max value:
+            <Input
+              id="idMax"
+              type={"number"}
+              onChange={onChangeMaxValueHandler}
+              status={status}
+              value={String(values.max)}
+            />
+          </WrapperLabel>
 
-                <Button disabled={disabledSet}
-                        onClick={setSettingsHandler}>
-                    set
-                </Button>
-            </BoxControlUnit>
-        </Box>
-    );
-};
+          <WrapperLabel htmlFor={"idStart"}>
+            start value:
+            <Input
+              id="idStart"
+              type={"number"}
+              onChange={onChangeStartValueHandler}
+              status={status}
+              value={String(values.start)}
+            />
+          </WrapperLabel>
+        </WrapperInputs>
+      </BoxScreen>
 
+      <BoxControlUnit>
+        <Button
+          disabled={isDisabledResetSettings}
+          onClick={resetSettingsHandler}>
+          reset
+        </Button>
+
+        <Button
+          disabled={disabledSet}
+          onClick={setSettingsHandler}>
+          set
+        </Button>
+      </BoxControlUnit>
+    </Box>
+  )
+}

@@ -1,14 +1,16 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import {ViewModeReducer} from './viewModeReducer';
-import {doubleCounterReducer} from '../features/model/doubleConterReducer';
+import {doubleCounterReducer} from '../common/double/doubleReduser';
+
 
 const rootReducer = combineReducers({
     viewMode: ViewModeReducer,
-    doubleCounter: doubleCounterReducer
+    doubleCounter: doubleCounterReducer,
 });
 
 export const store = configureStore({
-    reducer: rootReducer,
+    reducer: rootReducer
+
 });
 
 export type RootState = ReturnType<typeof store.getState>;

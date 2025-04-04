@@ -1,39 +1,29 @@
-import React, {useEffect, useState} from 'react';
-import {Count} from './Count/Count';
-import {Settings} from './Setting/Settings';
-import {KeysOfValuesType, StatusType, ValuesType} from '../../types/types';
-import {Wrapper} from './styles';
-import {getLocalStorage} from '../../utils/getLocalStorage';
+import React, { useEffect } from "react"
+import { Count } from "./Count/Count"
+import { Settings } from "./Setting/Settings"
+import { Wrapper } from "./styles"
+import { getLocalStorage } from "../../utils/getLocalStorage"
+import { useDispatch } from "react-redux"
+import { addValuesFromLocalStorageAC } from "../../common/double/doubleReduser"
 
 export const KEY_SETTINGS_VALUES = 'double';
-const INITIAL_VALUES: ValuesType = {max: 0, start: 0};
 
 export const DoubleCounter = () => {
-    const [values, setValues] = React.useState<ValuesType>(INITIAL_VALUES);
-    const [status, setStatus] = useState<StatusType>('setup');
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const getLocalValues = getLocalStorage(KEY_SETTINGS_VALUES)
         if (getLocalValues) {
-            setValues(getLocalValues)
+            dispatch(addValuesFromLocalStorageAC(getLocalValues))
         }
-    }, []);
+    }, [dispatch]);
 
-    const onChangeValues = (field: KeysOfValuesType, value: number) => {
-        setValues(prev => ({...prev, [field]: value}));
-    }
 
     return (
         <Wrapper>
-            <Settings values={values}
-                      onChangeValues={onChangeValues}
-                      status={status}
-                      setStatus={setStatus}
-            />
-
-            <Count values={values}
-                   status={status}
-            />
+            <Settings/>
+            <Count />
         </Wrapper>
     );
 };
