@@ -22,7 +22,11 @@ export const doubleCounterReducer = createReducer(initialState, builder => {
     .addCase(onChangeValuesAC, (state, action) => {
       const { field, value } = action.payload
       state.values[field] = value
+
+
       state.isDisabledResetSettings = false
+
+
       const isError = getIsError(state.values.start, state.values.max)
       state.status = isError ? "error" : "setup"
     })

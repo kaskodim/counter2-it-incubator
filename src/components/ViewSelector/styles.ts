@@ -6,9 +6,6 @@ export const Styles = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    
-
-
 `
 
 export const ViewModeTitle = styled.span`

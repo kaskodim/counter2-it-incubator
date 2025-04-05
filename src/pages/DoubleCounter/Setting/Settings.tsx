@@ -12,12 +12,12 @@ import { selectPressResetDoubleCounter } from "../../../common/double/doubleCoun
 
 
 export const Settings = () => {
+
   const values = useSelector(selectValuesDoubleCounter)
   const status = useSelector(selectStatusDoubleCounter)
   const isDisabledResetSettings = useSelector(selectPressResetDoubleCounter)
 
   const dispatch = useDispatch()
-
 
   const isValuesZero = values.start === 0 && values.max === 0
   const disabledSet = status !== "setup" || isValuesZero
@@ -46,38 +46,32 @@ export const Settings = () => {
         <WrapperInputs>
           <WrapperLabel htmlFor="idMax">
             max value:
-            <Input
-              id="idMax"
-              type={"number"}
-              onChange={onChangeMaxValueHandler}
-              status={status}
-              value={String(values.max)}
-            />
+            <Input id="idMax"
+                   type={"number"}
+                   onChange={onChangeMaxValueHandler}
+                   status={status}
+                   value={String(values.max)} />
           </WrapperLabel>
 
           <WrapperLabel htmlFor={"idStart"}>
             start value:
-            <Input
-              id="idStart"
-              type={"number"}
-              onChange={onChangeStartValueHandler}
-              status={status}
-              value={String(values.start)}
-            />
+            <Input id="idStart"
+                   type={"number"}
+                   onChange={onChangeStartValueHandler}
+                   status={status}
+                   value={values.start} />
           </WrapperLabel>
         </WrapperInputs>
       </BoxScreen>
 
       <BoxControlUnit>
-        <Button
-          disabled={isDisabledResetSettings}
-          onClick={resetSettingsHandler}>
+        <Button disabled={isDisabledResetSettings}
+                onClick={resetSettingsHandler}>
           reset
         </Button>
 
-        <Button
-          disabled={disabledSet}
-          onClick={setSettingsHandler}>
+        <Button disabled={disabledSet}
+                onClick={setSettingsHandler}>
           set
         </Button>
       </BoxControlUnit>

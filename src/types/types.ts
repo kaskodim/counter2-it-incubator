@@ -12,6 +12,14 @@ export type DoubleCounterType = {
     isDisabledResetSettings: boolean
 }
 
+
+export type SingleCounterType = {
+    stateValues: ValuesType
+    showCounter: boolean
+    localValues: ValuesType
+    status: StatusType
+}
+
 export type ChangeValuePayload = {
     field: KeysOfValuesType;
     value: number;
