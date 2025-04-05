@@ -4,7 +4,7 @@ import { getIsValuesZero } from "../../utils/getIsValuesZero"
 import { getIsError } from "../../utils/getIsError"
 
 
-export const getValuesFromLocalStorageAC = createAction<{values: ValuesType} >("singleCounter/addValuesFromLocalStorage")
+export const getValuesFromLocalStorageAC = createAction<{ values: ValuesType }>("singleCounter/addValuesFromLocalStorage")
 export const onChangeValuesAC = createAction<ChangeValuePayload>("singleCounter/onChangeValues")
 export const changeShowCounterAC = createAction<{ flag: boolean }>("singleCounter/changeShowCounter")
 export const onClickMemoryClearAC = createAction<{ values: ValuesType, status: StatusType }>("singleCounter/onClickMemoryClear")
@@ -32,13 +32,12 @@ export const singleReducer = createReducer(initialState, builder => {
       const { field, value } = action.payload
       state.stateValues[field] = value
 
-      const isValueZero = getIsValuesZero(state.stateValues.start, state.stateValues.max)
       const error = getIsError(state.stateValues.start, state.stateValues.max)
-
-      isValueZero ? state.status = "setup" : state.status = (error ? "error" : "ready")
+      state.status = (error ? "error" : "setup")
     })
     .addCase(changeShowCounterAC, (state, action) => {
       state.showCounter = action.payload.flag
+      state.status = 'setup'
     })
     .addCase(onClickMemoryClearAC, (state, action) => {
       state.localValues = action.payload.values
@@ -48,6 +47,8 @@ export const singleReducer = createReducer(initialState, builder => {
     .addCase(onClickSetAC, (state, action) => {
       state.localValues = action.payload.values
       state.showCounter = action.payload.showCounter
+      state.status = "ready"
+
     })
     .addCase(onChangeStatusAC, (state, action) => {
       state.status = action.payload.status
@@ -60,6 +61,6 @@ export const singleReducer = createReducer(initialState, builder => {
       const { max, start } = action.payload.value
       state.stateValues.max = max
       state.stateValues.start = start
-      state.status='setup'
+      state.status = "setup"
     })
 })
