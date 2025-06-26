@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/counter2-it-incubator/static/css/main.adf600af.css",
-    "main.js": "/counter2-it-incubator/static/js/main.ad727136.js",
+    "main.js": "/counter2-it-incubator/static/js/main.8fd79990.js",
     "index.html": "/counter2-it-incubator/index.html",
     "main.adf600af.css.map": "/counter2-it-incubator/static/css/main.adf600af.css.map",
-    "main.ad727136.js.map": "/counter2-it-incubator/static/js/main.ad727136.js.map"
+    "main.8fd79990.js.map": "/counter2-it-incubator/static/js/main.8fd79990.js.map"
   },
   "entrypoints": [
     "static/css/main.adf600af.css",
-    "static/js/main.ad727136.js"
+    "static/js/main.8fd79990.js"
   ]
 }
