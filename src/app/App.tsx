@@ -12,7 +12,6 @@ import { useViewModeSelector } from "../common/hooks/useViewModeSelector"
 export const VIEW_MODE_LOCAL_STORAGE = "viewMode"
 
 function App() {
-
   const viewMode = useViewModeSelector(selectViewMode)
   const dispatch = useDispatch()
 
@@ -21,7 +20,7 @@ function App() {
     if (getLocalViewMode) {
       dispatch(changeViewModeAC({ viewMode: getLocalViewMode }))
     }
-  }, [])
+  }, [dispatch])
 
   return (
     <AppStyles>
